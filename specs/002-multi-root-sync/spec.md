@@ -17,15 +17,30 @@
 
 ### Preserved behaviors (no change)
 - All existing tool names remain available and continue to accept their current
-  input shapes.
+-  input shapes for non-targeting fields (e.g., query, path, limit) while
+  targeting uses the new `scope` model.
 - Response envelope and error response shape remain unchanged.
 - Deterministic ordering rules remain unchanged for legacy modes.
 - Retrieval does not perform network operations implicitly.
 
 ### Breaking changes and migration plan
-- No breaking changes are permitted for this feature.
-- If any new tool input shape or response field conflicts with legacy usage, a
-  compatibility shim or versioned tool variant must be provided.
+- This feature introduces a breaking change by replacing `repo` with `scope`
+  for targeting retrieval tools.
+- Migration plan:
+  - Provide a compatibility shim or versioned tool variant that accepts legacy
+    `repo` inputs and maps them to `scope` during a deprecation window.
+  - Document the deprecation timeline and include a warning when legacy inputs
+    are used.
+
+## Clarifications
+
+### Session 2026-02-01
+
+- Q: Should this feature add a config file option, or extend env vars only? → A: Extend env vars only (no config file in this feature).
+- Q: What should be the default retrieval scope when no target is provided? → A: Default scope is all roots (docs+code+harness).
+- Q: How should the git cache be organized on disk? → A: Single cache root with per-root subdirectories based on stable root id.
+- Q: How should dirty git roots be handled? → A: Allow dirty roots but report `dirty: true`.
+- Q: How should retrieval tool targeting be expressed? → A: Replace `repo` with `scope` everywhere (breaking legacy inputs).
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -125,9 +140,11 @@ called.
 - **FR-001**: The system MUST begin this feature with a compatibility audit that
   documents current tools, schemas, config mechanism, and behavior.
 - **FR-002**: The system MUST preserve all existing tool names, input shapes,
-  response envelopes, and documented error shapes.
+  response envelopes, and documented error shapes, except for the explicit
+  replacement of `repo` with `scope` for targeting.
 - **FR-003**: The system MUST accept a configuration format that extends the
-  current environment-variable configuration rather than replacing it.
+  current environment-variable configuration only; no new config file is added
+  in this feature.
 - **FR-004**: The system MUST support multiple docs roots, multiple code roots,
   and a new harness namespace with stable root ids.
 - **FR-005**: The system MUST operate in docs-only mode without requiring code
@@ -137,20 +154,26 @@ called.
 - **FR-007**: The system MUST provide deterministic ordering for search results
   across single-root and multi-root scopes.
 - **FR-008**: Retrieval tools MUST support targeting a specific root id, a
-  namespace group, or all roots while keeping legacy inputs working.
+  namespace group, or all roots using `scope`. When no target is provided, the
+  default scope MUST include all roots (docs, code, harness).
 - **FR-009**: Retrieval results MUST include root id, relative path, line
   numbers, and preview text.
 - **FR-010**: The system MUST provide explicit repo management tools
   (`roots_list`, `repo_status`, `repo_sync`) with structured reports.
 - **FR-011**: Retrieval tools MUST NOT trigger any network operations.
 - **FR-012**: Git sync operations MUST be limited to the managed cache
-  directory and must be observable with before/after status.
+  directory and must be observable with before/after status. The cache MUST use
+  a single cache root with per-root subdirectories keyed by stable root id.
+- **FR-016**: Repo status and sync outputs MUST surface a `dirty` flag for git
+  roots and MUST NOT fail solely due to uncommitted changes.
 - **FR-013**: Validation MUST treat missing docs roots as an error and missing
   code roots as allowed.
 - **FR-014**: Errors MUST be structured and include machine-readable error
   codes for root validation and git operations.
 - **FR-015**: The system MUST include regression tests for existing behavior and
   new tests for multi-root, harness, and sync behaviors.
+- **FR-017**: Retrieval tools MUST use `scope` to indicate target roots and
+  MUST NOT accept legacy `repo` inputs.
 
 ### Key Entities *(include if feature involves data)*
 
