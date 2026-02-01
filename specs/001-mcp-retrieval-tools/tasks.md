@@ -120,8 +120,8 @@ description: "Task list template for feature implementation"
 - [x] T032 Document tool error cases and messages in `docs/errors.md`
 - [x] T033 Add acceptance checklist per tool in `docs/acceptance.md`
 - [x] T034 Add deterministic ordering rules to `docs/schema-examples.md`
-- [ ] T035 Add minimal structured logging to `src/core/logging.js`
-- [ ] T036 Emit per-request logs in `src/core/server.js`
+- [x] T035 Add minimal structured logging to `src/core/logging.js`
+- [x] T036 Emit per-request logs in `src/core/server.js`
 - [ ] T037 Run a non-McpOne client smoke test and capture notes in `docs/smoke-tests.md`
 - [x] T038 Add ping smoke test in `tests/integration/ping.test.js`
 - [x] T039 Add list_dir smoke test in `tests/integration/list_dir.test.js`
@@ -129,6 +129,7 @@ description: "Task list template for feature implementation"
 - [x] T041 Add get_snippet smoke test in `tests/integration/get_snippet.test.js`
 - [x] T042 Add search smoke test in `tests/integration/search.test.js`
 - [ ] T043 Add MCP client installation guide in `docs/installation.md`
+- [x] T044 Add logging smoke test in `tests/integration/logging.test.js`
 
 ---
 

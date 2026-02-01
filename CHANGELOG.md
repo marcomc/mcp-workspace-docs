@@ -19,6 +19,8 @@ All notable changes for this project will be documented in this file.
 - `get_snippet` tool with schema and smoke test.
 - Deterministic search tool, schema, and smoke test.
 - Documentation alignment for quality gates, error catalog, acceptance checks, and ordering rules.
+- Structured request and error logging (stderr).
+- Logging smoke test for structured request entries.
 
 ### Changed
 

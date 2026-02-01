@@ -2,6 +2,7 @@ import readline from "node:readline";
 
 import { wrapResult } from "./response.js";
 import { createError } from "../errors/errors.js";
+import { logRequest, logError } from "./logging.js";
 
 export class MCPServer {
   constructor({ tools, config }) {
@@ -37,17 +38,33 @@ export class MCPServer {
         truncated: false
       });
 
+      logRequest({
+        tool,
+        repo: response.meta.repo,
+        durationMs: response.meta.duration_ms
+      });
+
       if (id !== undefined) {
         return { id, ...response };
       }
       return response;
     } catch (error) {
       if (error && error.error) {
+        logError({
+          tool,
+          code: error.error.code,
+          message: error.error.message
+        });
         return id !== undefined ? { id, ...error } : error;
       }
 
       const wrapped = createError("INTERNAL_ERROR", "Unhandled error", {
         message: error?.message || String(error)
+      });
+      logError({
+        tool,
+        code: wrapped.error.code,
+        message: wrapped.error.message
       });
       return id !== undefined ? { id, ...wrapped } : wrapped;
     }
