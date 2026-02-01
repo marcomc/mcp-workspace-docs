@@ -84,12 +84,16 @@ export async function listDir({ params, config }) {
   const ignoreRules = loadIgnoreRules(root);
   const results = [];
 
+  const basePath = relativePath === "." ? "" : relativePath;
+
   for (const entry of entries) {
     if (entry.name.startsWith(".")) {
       continue;
     }
 
-    const entryRelative = path.join(relativePath, entry.name);
+    const entryRelative = basePath
+      ? path.join(basePath, entry.name)
+      : entry.name;
     const entryRelativePosix = toPosix(entryRelative);
     const entryIsDir = entry.isDirectory();
 

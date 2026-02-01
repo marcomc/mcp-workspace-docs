@@ -86,6 +86,7 @@ test("list_dir returns entries for docs root", async (t) => {
   }
   assert.equal(envelope.meta.repo, "docs");
   assert.ok(Array.isArray(envelope.result.entries));
+  assert.ok(envelope.result.entries.every((entry) => !entry.path.startsWith("./")));
 });
 
 test("list_dir returns virtual root when repo omitted", async (t) => {
