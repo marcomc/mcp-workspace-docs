@@ -47,8 +47,9 @@ description: "Task list template for feature implementation"
 - [x] T009 Implement deterministic ordering utilities in `src/core/order.js`
 - [x] T010 Implement ignore rules (dotfiles + .gitignore) in `src/core/ignore.js`
 - [x] T011 Wire stdio server entrypoint and tool registry in `src/index.js`
-- [x] T011B Define schema for `ping` output in `src/schemas/ping.json`
+- [x] T011B Remove `ping` schema and contract artifacts
 - [x] T011A Define default `search` limit (200) in `src/core/limits.js`
+- [x] T011C Implement MCP JSON-RPC protocol handling in `src/core/server.js`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -123,13 +124,14 @@ description: "Task list template for feature implementation"
 - [x] T035 Add minimal structured logging to `src/core/logging.js`
 - [x] T036 Emit per-request logs in `src/core/server.js`
 - [ ] T037 Run a non-McpOne client smoke test and capture notes in `docs/smoke-tests.md`
-- [x] T038 Add ping smoke test in `tests/integration/ping.test.js`
+- [x] T038 Remove `ping` smoke test
 - [x] T039 Add list_dir smoke test in `tests/integration/list_dir.test.js`
 - [x] T040 Add open_file smoke test in `tests/integration/open_file.test.js`
 - [x] T041 Add get_snippet smoke test in `tests/integration/get_snippet.test.js`
 - [x] T042 Add search smoke test in `tests/integration/search.test.js`
 - [ ] T043 Add MCP client installation guide in `docs/installation.md`
 - [x] T044 Add logging smoke test in `tests/integration/logging.test.js`
+- [x] T045 Add JSON-RPC protocol smoke test in `tests/integration/jsonrpc.test.js`
 
 ---
 

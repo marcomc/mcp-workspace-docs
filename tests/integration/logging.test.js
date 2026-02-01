@@ -7,7 +7,7 @@ const CODE_ROOT = process.env.CODE_ROOT;
 
 const shouldSkip = !DOCS_ROOT || !CODE_ROOT;
 
-async function runPingAndCaptureLogs() {
+async function runListDirAndCaptureLogs() {
   const child = spawn("node", ["./src/index.js"], {
     env: {
       ...process.env,
@@ -17,7 +17,14 @@ async function runPingAndCaptureLogs() {
     stdio: ["pipe", "pipe", "pipe"]
   });
 
-  child.stdin.write(`${JSON.stringify({ tool: "ping", params: {} })}\n`);
+  child.stdin.write(
+    `${JSON.stringify({
+      jsonrpc: "2.0",
+      id: 1,
+      method: "tools/call",
+      params: { name: "list_dir", arguments: { repo: "docs" } }
+    })}\n`
+  );
 
   const logLine = await new Promise((resolve, reject) => {
     let buffer = "";
@@ -51,11 +58,11 @@ test("logging emits structured tool_request entries", async (t) => {
     return;
   }
 
-  const entry = await runPingAndCaptureLogs();
+  const entry = await runListDirAndCaptureLogs();
 
   assert.equal(entry.level, "info");
   assert.equal(entry.event, "tool_request");
-  assert.equal(entry.tool, "ping");
-  assert.equal(entry.repo, "both");
+  assert.equal(entry.tool, "list_dir");
+  assert.equal(entry.repo, "docs");
   assert.ok(typeof entry.duration_ms === "number");
 });

@@ -59,12 +59,12 @@ codex mcp add mcp-workspace-doc \
 ### Option B: config.toml
 
 ```toml
-[mcp_servers.mcp-workspace-doc]
+[mcp_servers."MCP Workspace Doc"]
 command = "node"
 args = ["./src/index.js"]
 cwd = "/absolute/path/to/mcp-workspace-docs"
 
-[mcp_servers.mcp-workspace-doc.env]
+[mcp_servers."MCP Workspace Doc".env]
 DOCS_ROOT = "/absolute/path/to/docs"
 CODE_ROOT = "/absolute/path/to/code"
 ```
@@ -117,7 +117,6 @@ The interactive flow writes to `~/.copilot/mcp-config.json` (or under
         "CODE_ROOT": "/absolute/path/to/code"
       },
       "tools": [
-        "ping",
         "list_dir",
         "open_file",
         "get_snippet",

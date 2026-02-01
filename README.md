@@ -22,7 +22,7 @@ Run the minimal regression suite with repository roots set:
 DOCS_ROOT=/path/to/docs CODE_ROOT=/path/to/code npm test
 ```
 
-The `ping` smoke test validates stdio wiring and JSON response shape. Add more
+The smoke tests validate stdio wiring and JSON response shape. Add more
 tests under `tests/integration/` as new tools are implemented.
 
 ## Feature Specs

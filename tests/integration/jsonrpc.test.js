@@ -8,7 +8,7 @@ const VERBOSE_LEVEL = Number(process.env.TEST_VERBOSE || "0");
 
 const shouldSkip = !DOCS_ROOT || !CODE_ROOT;
 
-async function runTool(request) {
+async function runJsonRpc(request) {
   const child = spawn("node", ["./src/index.js"], {
     env: {
       ...process.env,
@@ -23,7 +23,7 @@ async function runTool(request) {
   const response = await new Promise((resolve, reject) => {
     let buffer = "";
     const timeout = setTimeout(() => {
-      reject(new Error("get_snippet test timed out"));
+      reject(new Error("jsonrpc test timed out"));
     }, 2000);
 
     child.stdout.on("data", (data) => {
@@ -46,36 +46,46 @@ async function runTool(request) {
   return JSON.parse(response);
 }
 
-test("get_snippet clamps ranges and returns lines", async (t) => {
+test("JSON-RPC initialize + tools/list work", async (t) => {
   if (shouldSkip) {
     t.skip("DOCS_ROOT and CODE_ROOT must be set");
     return;
   }
 
-  const payload = await runTool({
+  const init = await runJsonRpc({
     jsonrpc: "2.0",
     id: 1,
-    method: "tools/call",
-    params: {
-      name: "get_snippet",
-      arguments: {
-        repo: "docs",
-        path: "README.md",
-        start_line: 1,
-        end_line: 1000
-      }
-    }
+    method: "initialize",
+    params: { protocolVersion: "2024-11-05" }
   });
-  const envelope = payload.result?.data;
 
   if (VERBOSE_LEVEL >= 1) {
-    console.log("[get_snippet] response:", payload);
+    console.log("[jsonrpc] initialize:", init);
   }
   if (VERBOSE_LEVEL >= 2) {
-    console.log("[get_snippet] response (full):", JSON.stringify(payload, null, 2));
+    console.log("[jsonrpc] initialize (full):", JSON.stringify(init, null, 2));
   }
-  assert.equal(envelope.meta.repo, "docs");
-  assert.ok(envelope.result.lines.length >= 1);
-  assert.ok(envelope.result.start_line >= 1);
-  assert.ok(envelope.result.end_line >= envelope.result.start_line);
+
+  assert.equal(init.jsonrpc, "2.0");
+  assert.equal(init.id, 1);
+  assert.equal(init.result.protocolVersion, "2024-11-05");
+  assert.ok(init.result.serverInfo);
+
+  const list = await runJsonRpc({
+    jsonrpc: "2.0",
+    id: 2,
+    method: "tools/list"
+  });
+
+  if (VERBOSE_LEVEL >= 1) {
+    console.log("[jsonrpc] tools/list:", list);
+  }
+  if (VERBOSE_LEVEL >= 2) {
+    console.log("[jsonrpc] tools/list (full):", JSON.stringify(list, null, 2));
+  }
+
+  assert.equal(list.jsonrpc, "2.0");
+  assert.equal(list.id, 2);
+  assert.ok(Array.isArray(list.result.tools));
+  assert.ok(list.result.tools.find((tool) => tool.name === "list_dir"));
 });

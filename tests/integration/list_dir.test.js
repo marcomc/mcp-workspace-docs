@@ -53,9 +53,12 @@ test("list_dir returns entries for docs root", async (t) => {
   }
 
   const payload = await runTool({
-    tool: "list_dir",
-    params: { repo: "docs", path: "" }
+    jsonrpc: "2.0",
+    id: 1,
+    method: "tools/call",
+    params: { name: "list_dir", arguments: { repo: "docs", path: "" } }
   });
+  const envelope = payload.result?.data;
 
   if (VERBOSE_LEVEL >= 1) {
     console.log("[list_dir] response:", payload);
@@ -63,6 +66,6 @@ test("list_dir returns entries for docs root", async (t) => {
   if (VERBOSE_LEVEL >= 2) {
     console.log("[list_dir] response (full):", JSON.stringify(payload, null, 2));
   }
-  assert.equal(payload.meta.repo, "docs");
-  assert.ok(Array.isArray(payload.result.entries));
+  assert.equal(envelope.meta.repo, "docs");
+  assert.ok(Array.isArray(envelope.result.entries));
 });

@@ -53,9 +53,12 @@ test("open_file returns file contents", async (t) => {
   }
 
   const payload = await runTool({
-    tool: "open_file",
-    params: { repo: "docs", path: "README.md" }
+    jsonrpc: "2.0",
+    id: 1,
+    method: "tools/call",
+    params: { name: "open_file", arguments: { repo: "docs", path: "README.md" } }
   });
+  const envelope = payload.result?.data;
 
   if (VERBOSE_LEVEL >= 1) {
     console.log("[open_file] response:", payload);
@@ -63,7 +66,7 @@ test("open_file returns file contents", async (t) => {
   if (VERBOSE_LEVEL >= 2) {
     console.log("[open_file] response (full):", JSON.stringify(payload, null, 2));
   }
-  assert.equal(payload.meta.repo, "docs");
-  assert.ok(Array.isArray(payload.result.lines));
-  assert.ok(payload.result.lines.length >= 1);
+  assert.equal(envelope.meta.repo, "docs");
+  assert.ok(Array.isArray(envelope.result.lines));
+  assert.ok(envelope.result.lines.length >= 1);
 });

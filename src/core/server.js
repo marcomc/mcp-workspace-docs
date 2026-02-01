@@ -1,16 +1,20 @@
-import readline from "node:readline";
-
 import { wrapResult } from "./response.js";
 import { createError } from "../errors/errors.js";
 import { logRequest, logError } from "./logging.js";
 
 export class MCPServer {
-  constructor({ tools, config }) {
+  constructor({ tools, config, toolSchemas, serverInfo }) {
     this.tools = tools;
     this.config = config;
+    this.toolSchemas = toolSchemas || {};
+    this.serverInfo = serverInfo || { name: "MCP Workspace Doc", version: "0.1.0" };
   }
 
   async handleRequest(payload) {
+    if (payload?.jsonrpc === "2.0" && payload?.method) {
+      return this.handleJsonRpc(payload);
+    }
+
     if (!payload || typeof payload !== "object") {
       return createError("INVALID_REQUEST", "Invalid request payload", {
         reason: "NOT_OBJECT"
@@ -70,29 +74,213 @@ export class MCPServer {
     }
   }
 
-  start() {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      crlfDelay: Infinity
-    });
+  async handleJsonRpc(payload) {
+    const { id, method, params } = payload;
 
-    rl.on("line", async (line) => {
-      if (!line.trim()) {
-        return;
+    if (method === "notifications/initialized" || method === "initialized") {
+      return null;
+    }
+
+    if (method === "initialize") {
+      if (id === undefined || id === null) {
+        return null;
       }
-      let payload;
+      const protocolVersion = params?.protocolVersion || "2024-11-05";
+      return {
+        jsonrpc: "2.0",
+        id,
+        result: {
+          protocolVersion,
+          capabilities: { tools: {} },
+          serverInfo: this.serverInfo
+        }
+      };
+    }
+
+    if (method === "tools/list") {
+      if (id === undefined || id === null) {
+        return null;
+      }
+      const tools = Object.keys(this.tools).map((name) => ({
+        name,
+        description: "",
+        inputSchema: this.toolSchemas[name]?.input_schema || {
+          type: "object",
+          additionalProperties: false,
+          properties: {}
+        }
+      }));
+      return {
+        jsonrpc: "2.0",
+        id,
+        result: { tools }
+      };
+    }
+
+    if (method === "tools/call") {
+      if (id === undefined || id === null) {
+        return null;
+      }
+      const toolName = params?.name;
+      const args = params?.arguments || {};
+      const handler = this.tools[toolName];
+
+      if (!toolName || typeof toolName !== "string" || !handler) {
+        return {
+          jsonrpc: "2.0",
+          id,
+          error: {
+            code: -32601,
+            message: "Tool not found",
+            data: { tool: toolName }
+          }
+        };
+      }
+
+      const start = Date.now();
       try {
-        payload = JSON.parse(line);
-      } catch (error) {
-        const response = createError("INVALID_JSON", "Invalid JSON payload", {
-          message: error.message
+        const result = await handler({ params: args, config: this.config });
+        const envelope = wrapResult(result, {
+          repo: args?.repo ?? "both",
+          duration_ms: Date.now() - start,
+          truncated: false
         });
-        process.stdout.write(`${JSON.stringify(response)}\n`);
-        return;
-      }
 
+        logRequest({
+          tool: toolName,
+          repo: envelope.meta.repo,
+          durationMs: envelope.meta.duration_ms
+        });
+
+        return {
+          jsonrpc: "2.0",
+          id,
+          result: {
+            content: [{ type: "text", text: JSON.stringify(envelope) }],
+            data: envelope,
+            isError: false
+          }
+        };
+      } catch (error) {
+        const wrapped = error && error.error
+          ? error
+          : createError("INTERNAL_ERROR", "Unhandled error", {
+              message: error?.message || String(error)
+            });
+
+        logError({
+          tool: toolName,
+          code: wrapped.error.code,
+          message: wrapped.error.message
+        });
+
+        return {
+          jsonrpc: "2.0",
+          id,
+          error: {
+            code: -32000,
+            message: wrapped.error.message,
+            data: wrapped
+          }
+        };
+      }
+    }
+
+    if (id === undefined || id === null) {
+      return null;
+    }
+
+    return {
+      jsonrpc: "2.0",
+      id,
+      error: {
+        code: -32601,
+        message: "Method not found",
+        data: { method }
+      }
+    };
+  }
+
+  start() {
+    let buffer = Buffer.alloc(0);
+
+    const tryHandlePayload = async (payload) => {
       const response = await this.handleRequest(payload);
+      if (response !== null && response !== undefined) {
+        process.stdout.write(`${JSON.stringify(response)}\n`);
+      }
+    };
+
+    const writeParseError = (message) => {
+      const response = {
+        jsonrpc: "2.0",
+        id: null,
+        error: {
+          code: -32700,
+          message: "Parse error",
+          data: { message }
+        }
+      };
       process.stdout.write(`${JSON.stringify(response)}\n`);
+    };
+
+    const handleHeaderFramed = async () => {
+      while (true) {
+        const headerEnd = buffer.indexOf("\r\n\r\n");
+        if (headerEnd === -1) {
+          return;
+        }
+        const headerText = buffer.slice(0, headerEnd).toString("utf8");
+        const match = headerText.match(/content-length:\s*(\d+)/i);
+        if (!match) {
+          writeParseError("Missing Content-Length header");
+          buffer = buffer.slice(headerEnd + 4);
+          continue;
+        }
+        const contentLength = Number(match[1]);
+        const bodyStart = headerEnd + 4;
+        const bodyEnd = bodyStart + contentLength;
+        if (buffer.length < bodyEnd) {
+          return;
+        }
+        const body = buffer.slice(bodyStart, bodyEnd).toString("utf8");
+        buffer = buffer.slice(bodyEnd);
+        if (!body.trim()) {
+          continue;
+        }
+        try {
+          const payload = JSON.parse(body);
+          await tryHandlePayload(payload);
+        } catch (error) {
+          writeParseError(error.message);
+        }
+      }
+    };
+
+    const handleLineFramed = async () => {
+      let newlineIndex;
+      while ((newlineIndex = buffer.indexOf("\n")) !== -1) {
+        const line = buffer.slice(0, newlineIndex).toString("utf8");
+        buffer = buffer.slice(newlineIndex + 1);
+        if (!line.trim()) {
+          continue;
+        }
+        try {
+          const payload = JSON.parse(line);
+          await tryHandlePayload(payload);
+        } catch (error) {
+          writeParseError(error.message);
+        }
+      }
+    };
+
+    process.stdin.on("data", async (chunk) => {
+      buffer = Buffer.concat([buffer, chunk]);
+      if (buffer.includes("\r\n\r\n")) {
+        await handleHeaderFramed();
+      } else if (buffer.includes("\n")) {
+        await handleLineFramed();
+      }
     });
   }
 }

@@ -25,22 +25,6 @@ Search results are ordered by:
 2. relative path (lexicographic)
 3. line number (ascending)
 
-## ping
-
-```json
-{
-  "result": {
-    "status": "ok",
-    "version": "0.1.0"
-  },
-  "meta": {
-    "repo": "both",
-    "duration_ms": 2,
-    "truncated": false
-  }
-}
-```
-
 ## search
 
 ```json

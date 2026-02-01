@@ -53,16 +53,23 @@ test("search returns stable ordering for identical inputs", async (t) => {
   }
 
   const request = {
-    tool: "search",
+    jsonrpc: "2.0",
+    id: 1,
+    method: "tools/call",
     params: {
-      repo: "docs",
-      query: "Workspace",
-      limit: 5
+      name: "search",
+      arguments: {
+        repo: "docs",
+        query: "Workspace",
+        limit: 5
+      }
     }
   };
 
   const first = await runTool(request);
   const second = await runTool(request);
+  const firstEnvelope = first.result?.data;
+  const secondEnvelope = second.result?.data;
 
   if (VERBOSE_LEVEL >= 1) {
     console.log("[search] first response:", first);
@@ -73,7 +80,7 @@ test("search returns stable ordering for identical inputs", async (t) => {
     console.log("[search] second response (full):", JSON.stringify(second, null, 2));
   }
 
-  assert.equal(first.meta.repo, "docs");
-  assert.deepEqual(first.result, second.result);
-  assert.ok(Array.isArray(first.result));
+  assert.equal(firstEnvelope.meta.repo, "docs");
+  assert.deepEqual(firstEnvelope.result, secondEnvelope.result);
+  assert.ok(Array.isArray(firstEnvelope.result));
 });
