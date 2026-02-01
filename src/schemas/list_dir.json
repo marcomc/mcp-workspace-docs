@@ -4,7 +4,6 @@
   "input_schema": {
     "type": "object",
     "additionalProperties": false,
-    "required": ["repo"],
     "properties": {
       "repo": {
         "type": "string",
@@ -69,11 +68,5 @@
         }
       }
     }
-  },
-  "error_codes": [
-    { "code": "CONFIG_INVALID", "message": "Invalid repository configuration" },
-    { "code": "PATH_OUT_OF_ROOT", "message": "Path must be within repo root" },
-    { "code": "DIR_NOT_FOUND", "message": "Directory not found" },
-    { "code": "DIR_UNREADABLE", "message": "Directory not readable" }
-  ]
+  }
 }

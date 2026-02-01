@@ -4,7 +4,7 @@
   "input_schema": {
     "type": "object",
     "additionalProperties": false,
-    "required": ["repo", "query"],
+    "required": ["query"],
     "properties": {
       "repo": {
         "type": "string",
@@ -70,11 +70,5 @@
         }
       }
     }
-  },
-  "error_codes": [
-    { "code": "CONFIG_INVALID", "message": "Invalid repository configuration" },
-    { "code": "QUERY_EMPTY", "message": "Query must be non-empty" },
-    { "code": "LIMIT_INVALID", "message": "Limit must be >= 1" },
-    { "code": "REPO_INVALID", "message": "Repo must be docs, code, or both" }
-  ]
+  }
 }

@@ -1,8 +1,9 @@
 # Specification Quality Checklist: MCP Retrieval Tools
 
-**Purpose**: Validate specification completeness and quality before proceeding to planning
+**Purpose**: Validate specification completeness and quality before proceeding
+to planning
 **Created**: 2026-02-01
-**Feature**: /Users/mmassari/Development/MCP/mcp-workspace-docs/specs/001-mcp-retrieval-tools/spec.md
+**Feature**: specs/001-mcp-retrieval-tools/spec.md
 
 ## Content Quality
 

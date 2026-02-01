@@ -1,7 +1,7 @@
 # Quickstart: MCP Retrieval Tools
 
 **Date**: 2026-02-01
-**Feature**: /Users/mmassari/Development/MCP/mcp-workspace-docs/specs/001-mcp-retrieval-tools/spec.md
+**Feature**: specs/001-mcp-retrieval-tools/spec.md
 
 ## Prerequisites
 
@@ -33,9 +33,10 @@ node ./src/index.js
 
 ## Smoke Test
 
-1. Call `list_dir` for `docs` and confirm entries are relative to repo root.
-2. Call `search` with a stable query twice and confirm identical ordering.
-3. Call `open_file` for a known file and verify line numbers.
+1. Call `list_dir` with no repo and confirm it returns `docs` and `code`.
+2. Call `smart_search` without `repo` and confirm results include `repo`.
+3. Call `search` with a stable query twice and confirm identical ordering.
+4. Call `open_file` for a known file and verify line numbers.
 
 ## Related Docs
 

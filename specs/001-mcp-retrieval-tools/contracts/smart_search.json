@@ -1,10 +1,10 @@
 {
-  "tool": "search",
-  "description": "Deterministic keyword search across workspace docs/code with stable ordering and optional file_glob filtering. Example: search({query: \"ws commands\", file_glob: \"docs/**\", limit: 20}).",
+  "tool": "smart_search",
+  "description": "Repo-agnostic deterministic search across workspace docs and code, returning repo-qualified matches for discovery. Example: smart_search({query: \"ws commands\", limit: 20}).",
   "input_schema": {
     "type": "object",
     "additionalProperties": false,
-    "required": ["repo", "query"],
+    "required": ["query"],
     "properties": {
       "repo": {
         "type": "string",
@@ -34,8 +34,12 @@
         "items": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["path", "line", "preview"],
+          "required": ["repo", "path", "line", "preview"],
           "properties": {
+            "repo": {
+              "type": "string",
+              "enum": ["docs", "code"]
+            },
             "path": { "type": "string" },
             "line": { "type": "integer", "minimum": 1 },
             "preview": { "type": "string" }
@@ -47,7 +51,7 @@
         "additionalProperties": false,
         "required": ["repo", "duration_ms", "truncated"],
         "properties": {
-          "repo": { "type": "string", "enum": ["docs", "code", "both"] },
+          "repo": { "type": "string" },
           "duration_ms": { "type": "integer", "minimum": 0 },
           "truncated": { "type": "boolean" }
         }
@@ -70,11 +74,5 @@
         }
       }
     }
-  },
-  "error_codes": [
-    { "code": "CONFIG_INVALID", "message": "Invalid repository configuration" },
-    { "code": "QUERY_EMPTY", "message": "Query must be non-empty" },
-    { "code": "LIMIT_INVALID", "message": "Limit must be >= 1" },
-    { "code": "REPO_INVALID", "message": "Repo must be docs, code, or both" }
-  ]
+  }
 }

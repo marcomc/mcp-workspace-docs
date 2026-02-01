@@ -1,5 +1,6 @@
 {
   "tool": "get_snippet",
+  "description": "Return a line range from a file with line numbers, clamping to file bounds for safe, minimal citations.",
   "input_schema": {
     "type": "object",
     "additionalProperties": false,
@@ -7,7 +8,8 @@
     "properties": {
       "repo": {
         "type": "string",
-        "enum": ["docs", "code"]
+        "enum": ["docs", "code"],
+        "description": "Logical repository name (docs or code). Do not pass filesystem paths."
       },
       "path": {
         "type": "string",

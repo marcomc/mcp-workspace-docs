@@ -1,5 +1,7 @@
 # Tool Schema Examples
 
+Repository-wide reference for tool response shapes and ordering rules.
+
 ## Shared Response Envelope
 
 ```json
@@ -12,6 +14,16 @@
   }
 }
 ```
+
+All tools must wrap their payloads in the shared response envelope above.
+
+## Deterministic Ordering
+
+Search results are ordered by:
+
+1. repo (`docs`, then `code`)
+2. relative path (lexicographic)
+3. line number (ascending)
 
 ## search
 
@@ -27,6 +39,26 @@
   "meta": {
     "repo": "docs",
     "duration_ms": 8,
+    "truncated": false
+  }
+}
+```
+
+## smart_search
+
+```json
+{
+  "result": [
+    {
+      "repo": "docs",
+      "path": "README.md",
+      "line": 12,
+      "preview": "Workspace CLI overview"
+    }
+  ],
+  "meta": {
+    "repo": "both",
+    "duration_ms": 9,
     "truncated": false
   }
 }

@@ -1,5 +1,6 @@
 {
   "tool": "open_file",
+  "description": "Open a file from workspace docs or code and return full contents with line numbers for grounded citations.",
   "input_schema": {
     "type": "object",
     "additionalProperties": false,
@@ -7,7 +8,8 @@
     "properties": {
       "repo": {
         "type": "string",
-        "enum": ["docs", "code"]
+        "enum": ["docs", "code"],
+        "description": "Logical repository name (docs or code). Do not pass filesystem paths."
       },
       "path": {
         "type": "string",

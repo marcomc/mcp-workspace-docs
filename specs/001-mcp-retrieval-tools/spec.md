@@ -9,7 +9,8 @@ over two local repositories: `docs` (local documentation) and `code` (local
 upstream source). The MCP server will be run via **stdio** and registered as a
 **Local Server in McpOne (macOS)**, and must be reusable without modification
 by **Codex CLI / VS Code, Gemini CLI, and GitHub Copilot CLI**. Required tools:
-`search`, `open_file`, `get_snippet`, `list_dir` with specified parameters,
+`search`, `smart_search`, `open_file`, `get_snippet`, `list_dir` with specified
+parameters,
 deterministic behavior, and structured errors. Configuration via `DOCS_ROOT` and
 `CODE_ROOT`. Non-functional requirements include deterministic ordering,
 read-only access, clear structured errors, reasonable defaults. Out of scope:
@@ -25,18 +26,23 @@ As a developer using an MCP client, I want to search and retrieve content from
 `docs` and `code` repositories with deterministic ordering so I can rely on
 repeatable answers across clients.
 
-**Why this priority**: This is the primary capability required for MCP clients to
-surface evidence-backed answers.
+**Why this priority**: This is the primary capability required for MCP clients
+to surface evidence-backed answers.
 
-**Independent Test**: Provide a fixed query against a static repository snapshot
-and confirm identical ordered results across multiple runs.
+**Independent Test**: Run `list_dir` to confirm server connectivity, then
+provide a fixed query against a static repository snapshot and confirm identical
+ordered results across multiple runs.
 
 **Acceptance Scenarios**:
 
-1. **Given** a configured `docs` root and a query string, **When** I run
+1. **Given** the server is running, **When** I call `list_dir`, **Then** I
+   receive entries and shared metadata in the response envelope.
+2. **Given** a configured `docs` root and a query string, **When** I run
    `search` with the same inputs twice, **Then** I receive identical ordered
    results including file path, line number(s), and matched text preview.
-2. **Given** a configured `code` root and a file path, **When** I run
+3. **Given** a query string, **When** I call `smart_search` without a repo,
+   **Then** I receive results that include a `repo` field for each match.
+4. **Given** a configured `code` root and a file path, **When** I run
    `open_file`, **Then** I receive the full file content with line numbers.
 
 ---
@@ -46,10 +52,11 @@ and confirm identical ordered results across multiple runs.
 As a security-conscious operator, I want the server to reject invalid or unsafe
 paths so that clients cannot access data outside the configured repositories.
 
-**Why this priority**: Prevents data leakage and enforces least-privilege access.
+**Why this priority**: Prevents data leakage and enforces least-privilege
+access.
 
-**Independent Test**: Attempt to access a path outside the repo root and verify a
-structured error response.
+**Independent Test**: Attempt to access a path outside the repo root and verify
+a structured error response.
 
 **Acceptance Scenarios**:
 
@@ -83,6 +90,8 @@ the filesystem and are relative to the repo root.
 - `search` with an empty query or a limit of zero returns a structured error.
 - Binary or non-text files are skipped by `search` and reported only if opened.
 - `get_snippet` clamps ranges to file bounds and errors on invalid ranges.
+- When `repo` is omitted and a path exists in both `docs` and `code`, the server
+  returns a structured `PATH_AMBIGUOUS` error.
 - Invalid repo names return a structured error with code `REPO_INVALID`.
 
 ## Constitution Constraints *(mandatory)*
@@ -130,22 +139,34 @@ the filesystem and are relative to the repo root.
 
 ### Functional Requirements
 
-- **FR-001**: System MUST expose MCP tools: `search`, `open_file`, `get_snippet`,
-  and `list_dir`.
+- **FR-001**: System MUST expose MCP tools: `search`, `smart_search`,
+  `open_file`, `get_snippet`, and `list_dir`.
 - **FR-002**: `search` MUST accept `repo` as `docs`, `code`, or `both` and perform
   deterministic keyword search over the selected roots. Ordering is by repo
   (`docs`, `code`), then relative path (lexicographic), then line number
   ascending.
+- **FR-002A**: If `search` omits `repo`, the server MUST default to `both`.
 - **FR-003**: `search` results MUST return per-match entries with relative file
   path, line number, and matched text preview, returned in a stable order for
   identical inputs.
+- **FR-003A**: `smart_search` MUST return per-match entries with `repo`, `path`,
+  `line`, and `preview`, ordered by repo (`docs` then `code`), then path, then
+  line.
 - **FR-004**: `open_file` MUST return full file contents with line numbers and
   reject paths outside the configured repo root.
+- **FR-004A**: If `open_file` omits `repo`, the server MUST resolve the path
+  across `docs` and `code` and error with `PATH_AMBIGUOUS` if multiple matches
+  exist.
 - **FR-005**: `get_snippet` MUST return only the requested line range, clamping
   to file bounds and rejecting invalid ranges with clear errors.
+- **FR-005A**: If `get_snippet` omits `repo`, the server MUST resolve the path
+  across `docs` and `code` and error with `PATH_AMBIGUOUS` if multiple matches
+  exist.
 - **FR-006**: `list_dir` MUST return files and directories relative to the repo
   root and exclude hidden dotfiles/directories and ignored files (e.g.,
   `.gitignore`) when applicable.
+- **FR-006A**: If `list_dir` omits `repo` and `path`, the server MUST return a
+  virtual root containing `docs` and `code`.
 - **FR-007**: Each tool MUST define JSON schemas for inputs and outputs, and
   outputs MUST use a shared envelope: top-level `result` plus `meta` with
   `repo`, `duration_ms`, and `truncated`. Errors MUST be structured with stable,

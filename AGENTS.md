@@ -28,7 +28,8 @@ N/A (no implementation languages declared).
 
 ## Recent Changes
 
-- 001-mcp-retrieval-tools: Added Node.js 20 LTS + Node.js standard library (fs, path); no network deps.
+- 001-mcp-retrieval-tools: Added Node.js 20 LTS + Node.js standard library
+  (fs, path); no network deps.
 - 001-mcp-retrieval-tools: Added specification and quality checklist.
 
 <!-- MANUAL ADDITIONS START -->

@@ -1,0 +1,175 @@
+import { spawn } from "node:child_process";
+import { strict as assert } from "node:assert";
+import test from "node:test";
+
+const DOCS_ROOT = process.env.DOCS_ROOT;
+const CODE_ROOT = process.env.CODE_ROOT;
+const VERBOSE_LEVEL = Number(process.env.TEST_VERBOSE || "0");
+
+const shouldSkip = !DOCS_ROOT || !CODE_ROOT;
+
+async function runTool(request) {
+  const child = spawn("node", ["./src/index.js"], {
+    env: {
+      ...process.env,
+      DOCS_ROOT,
+      CODE_ROOT
+    },
+    stdio: ["pipe", "pipe", "pipe"]
+  });
+
+  child.stdin.write(`${JSON.stringify(request)}\n`);
+
+  const response = await new Promise((resolve, reject) => {
+    let buffer = "";
+    const expectedId = request.id;
+    const timeout = setTimeout(() => {
+      reject(new Error("search test timed out"));
+    }, 2000);
+
+    child.stdout.on("data", (data) => {
+      buffer += data.toString();
+      const lines = buffer.split("\n");
+      buffer = lines.pop() || "";
+
+      for (const line of lines) {
+        if (!line.trim()) {
+          continue;
+        }
+        let parsed;
+        try {
+          parsed = JSON.parse(line);
+        } catch (error) {
+          continue;
+        }
+        if (parsed?.method?.startsWith("notifications/")) {
+          continue;
+        }
+        if (expectedId !== undefined && parsed?.id !== expectedId) {
+          continue;
+        }
+        clearTimeout(timeout);
+        resolve(line);
+        return;
+      }
+    });
+
+    child.on("error", (error) => {
+      clearTimeout(timeout);
+      reject(error);
+    });
+  });
+
+  child.kill();
+  return JSON.parse(response);
+}
+
+test("search returns stable ordering for identical inputs", async (t) => {
+  if (shouldSkip) {
+    t.skip("DOCS_ROOT and CODE_ROOT must be set");
+    return;
+  }
+
+  const request = {
+    jsonrpc: "2.0",
+    id: 1,
+    method: "tools/call",
+    params: {
+      name: "search",
+      arguments: {
+        repo: "docs",
+        query: "Workspace",
+        limit: 5
+      }
+    }
+  };
+
+  const first = await runTool(request);
+  const second = await runTool(request);
+  const firstEnvelope = first.result?.data;
+  const secondEnvelope = second.result?.data;
+
+  if (VERBOSE_LEVEL >= 1) {
+    console.log("[search] first response:", first);
+    console.log("[search] second response:", second);
+  }
+  if (VERBOSE_LEVEL >= 2) {
+    console.log("[search] first response (full):", JSON.stringify(first, null, 2));
+    console.log("[search] second response (full):", JSON.stringify(second, null, 2));
+  }
+
+  assert.equal(firstEnvelope.meta.repo, "docs");
+  assert.deepEqual(firstEnvelope.result, secondEnvelope.result);
+  assert.ok(Array.isArray(firstEnvelope.result));
+});
+
+test("search accepts glob patterns with **", async (t) => {
+  if (shouldSkip) {
+    t.skip("DOCS_ROOT and CODE_ROOT must be set");
+    return;
+  }
+
+  const payload = await runTool({
+    jsonrpc: "2.0",
+    id: 2,
+    method: "tools/call",
+    params: {
+      name: "search",
+      arguments: {
+        repo: "docs",
+        query: "Workspace",
+        file_glob: "**/*.md",
+        limit: 5
+      }
+    }
+  });
+  const envelope = payload.result?.data;
+
+  if (VERBOSE_LEVEL >= 1) {
+    console.log("[search] glob response:", payload);
+  }
+  if (VERBOSE_LEVEL >= 2) {
+    console.log("[search] glob response (full):", JSON.stringify(payload, null, 2));
+  }
+
+  assert.equal(envelope.meta.repo, "docs");
+  assert.ok(Array.isArray(envelope.result));
+});
+
+test("search honors repo-prefixed file_glob patterns", async (t) => {
+  if (shouldSkip) {
+    t.skip("DOCS_ROOT and CODE_ROOT must be set");
+    return;
+  }
+
+  const payload = await runTool({
+    jsonrpc: "2.0",
+    id: 3,
+    method: "tools/call",
+    params: {
+      name: "search",
+      arguments: {
+        repo: "both",
+        query: "Workspace",
+        file_glob: "docs/**/*.md",
+        limit: 5
+      }
+    }
+  });
+  const envelope = payload.result?.data;
+
+  if (VERBOSE_LEVEL >= 1) {
+    console.log("[search] repo-prefixed glob response:", payload);
+  }
+  if (VERBOSE_LEVEL >= 2) {
+    console.log(
+      "[search] repo-prefixed glob response (full):",
+      JSON.stringify(payload, null, 2)
+    );
+  }
+
+  assert.equal(envelope.meta.repo, "both");
+  assert.ok(Array.isArray(envelope.result));
+  assert.ok(envelope.result.length > 0);
+  assert.ok(envelope.result.every((match) => !match.path.startsWith("docs/")));
+});
