@@ -80,10 +80,10 @@ the filesystem and are relative to the repo root.
 
 ### Edge Cases
 
-- What happens when `search` is called with an empty query or a limit of zero?
-- How does the system handle binary or non-text files in the repository roots?
-- What happens when `get_snippet` requests a range beyond file bounds?
-- How does the system respond when a repo name is invalid or unsupported?
+- `search` with an empty query or a limit of zero returns a structured error.
+- Binary or non-text files are skipped by `search` and reported only if opened.
+- `get_snippet` clamps ranges to file bounds and errors on invalid ranges.
+- Invalid repo names return a structured error with code `REPO_INVALID`.
 
 ## Constitution Constraints *(mandatory)*
 
@@ -93,6 +93,12 @@ the filesystem and are relative to the repo root.
 - All filesystem access MUST be read-only and confined to configured roots.
 - Retrieval MUST be deterministic for identical inputs on unchanged files.
 - Repository roots MUST be provided via configuration, not hard-coded.
+
+## Observability *(optional)*
+
+- Log each tool request with tool name, repo, and duration.
+- Log errors with error `code` and relevant context.
+- Logs MUST NOT include file contents.
 
 ## Assumptions
 
@@ -127,7 +133,9 @@ the filesystem and are relative to the repo root.
 - **FR-001**: System MUST expose MCP tools: `search`, `open_file`, `get_snippet`,
   and `list_dir`.
 - **FR-002**: `search` MUST accept `repo` as `docs`, `code`, or `both` and perform
-  deterministic keyword search over the selected roots.
+  deterministic keyword search over the selected roots. Ordering is by repo
+  (`docs`, `code`), then relative path (lexicographic), then line number
+  ascending.
 - **FR-003**: `search` results MUST return per-match entries with relative file
   path, line number, and matched text preview, returned in a stable order for
   identical inputs.
@@ -152,7 +160,8 @@ the filesystem and are relative to the repo root.
   compatibility.
 - **FR-012**: The system MUST NOT require network access for core functionality.
 - **FR-013**: Reasonable defaults MUST be defined for optional parameters such as
-  `search` result limits.
+  `search` result limits. Default `search` limit is 200 matches when omitted to
+  balance performance and result usefulness.
 - **FR-014**: The specification MUST enumerate error cases and expected messages
   for each tool.
 - **FR-015**: The specification MUST include an acceptance checklist for each
@@ -176,6 +185,10 @@ the filesystem and are relative to the repo root.
 - Network access
 - Authentication or authorization
 - Code modification or execution
+
+## Related Docs
+
+- Tool error cases: `docs/errors.md`
 
 ## Success Criteria *(mandatory)*
 

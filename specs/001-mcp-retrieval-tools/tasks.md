@@ -47,6 +47,7 @@ description: "Task list template for feature implementation"
 - [ ] T009 Implement deterministic ordering utilities in `src/core/order.js`
 - [ ] T010 Implement ignore rules (dotfiles + .gitignore) in `src/core/ignore.js`
 - [ ] T011 Wire stdio server entrypoint and tool registry in `src/index.js`
+- [ ] T011A Define default `search` limit (200) in `src/core/limits.js`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -108,11 +109,19 @@ description: "Task list template for feature implementation"
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T025 [P] Document tool schemas and envelope usage in `README.md`
+- [ ] T025 [P] Document tool schemas and envelope usage in `docs/schema-examples.md`
 - [ ] T026 Verify deterministic ordering for search results in `tests/integration/determinism.md`
 - [ ] T027 Validate tool schemas and pagination/chunking behavior in `tests/integration/schemas.md`
 - [ ] T028 Confirm stdio-only operation and no network usage in `tests/integration/stdio.md`
 - [ ] T029 Ensure read-only filesystem guards prevent root escape in `tests/integration/security.md`
+- [ ] T030 Add Definition of Done and PR checklist to `docs/quality.md`
+- [ ] T031 Add tool schema examples to `docs/schema-examples.md`
+- [ ] T032 Document tool error cases and messages in `docs/errors.md`
+- [ ] T033 Add acceptance checklist per tool in `docs/acceptance.md`
+- [ ] T034 Add deterministic ordering rules to `docs/schema-examples.md`
+- [ ] T035 Add minimal structured logging to `src/core/logging.js`
+- [ ] T036 Emit per-request logs in `src/core/server.js`
+- [ ] T037 Run a non-McpOne client smoke test and capture notes in `docs/smoke-tests.md`
 
 ---
 

@@ -36,3 +36,10 @@ node ./src/index.js
 1. Call `list_dir` for `docs` and confirm entries are relative to repo root.
 2. Call `search` with a stable query twice and confirm identical ordering.
 3. Call `open_file` for a known file and verify line numbers.
+
+## Related Docs
+
+- Quality gates: `docs/quality.md`
+- Tool schema examples: `docs/schema-examples.md`
+- Tool error cases: `docs/errors.md`
+- Tool acceptance checklists: `docs/acceptance.md`
