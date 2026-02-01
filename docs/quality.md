@@ -1,5 +1,8 @@
 # Quality Gates
 
+This file defines repository-wide quality expectations that apply to all
+features and changes, not a single spec.
+
 ## Definition of Done
 
 - All constitution principles satisfied without exception.

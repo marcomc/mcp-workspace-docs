@@ -8,6 +8,8 @@ local MCP retrieval tools server.
 ## Key Documents
 
 - Quality gates: `docs/quality.md`
+- Quickstart: `docs/quickstart.md`
+- Installation: `docs/installation.md`
 - Tool schema examples: `docs/schema-examples.md`
 - Tool error cases: `docs/errors.md`
 - Tool acceptance checklists: `docs/acceptance.md`

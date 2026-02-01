@@ -1,5 +1,7 @@
 # Tool Error Cases
 
+Repository-wide catalog of error codes and messages for MCP tools.
+
 ## search
 
 - `CONFIG_INVALID`: Invalid repository configuration

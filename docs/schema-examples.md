@@ -1,5 +1,7 @@
 # Tool Schema Examples
 
+Repository-wide reference for tool response shapes and ordering rules.
+
 ## Shared Response Envelope
 
 ```json
@@ -12,6 +14,16 @@
   }
 }
 ```
+
+All tools must wrap their payloads in the shared response envelope above.
+
+## Deterministic Ordering
+
+Search results are ordered by:
+
+1. repo (`docs`, then `code`)
+2. relative path (lexicographic)
+3. line number (ascending)
 
 ## ping
 

@@ -1,5 +1,7 @@
 # Tool Acceptance Checklists
 
+Repository-wide acceptance criteria for MCP tool behavior.
+
 ## search
 
 - [ ] Accepts `repo` as `docs`, `code`, or `both`

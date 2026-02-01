@@ -18,6 +18,7 @@ All notable changes for this project will be documented in this file.
 - Smoke tests for `list_dir` and `open_file`.
 - `get_snippet` tool with schema and smoke test.
 - Deterministic search tool, schema, and smoke test.
+- Documentation alignment for quality gates, error catalog, acceptance checks, and ordering rules.
 
 ### Changed
 

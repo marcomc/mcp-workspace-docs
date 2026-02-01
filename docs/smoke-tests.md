@@ -1,5 +1,7 @@
 # Client Smoke Tests
 
+Repository-wide smoke test checklists for supported MCP clients.
+
 ## Codex CLI (Local MCP)
 
 - [ ] Start server with `DOCS_ROOT` and `CODE_ROOT` set
