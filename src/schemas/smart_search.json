@@ -1,6 +1,6 @@
 {
   "tool": "smart_search",
-  "description": "Repo-agnostic deterministic search across workspace docs and code, returning repo-qualified matches for discovery.",
+  "description": "Repo-agnostic deterministic search across workspace docs and code, returning repo-qualified matches for discovery. Example: smart_search({query: \"ws commands\", limit: 20}).",
   "input_schema": {
     "type": "object",
     "additionalProperties": false,

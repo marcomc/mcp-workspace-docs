@@ -1,6 +1,6 @@
 {
   "tool": "search",
-  "description": "Deterministic keyword search across workspace docs/code with stable ordering and optional file_glob filtering.",
+  "description": "Deterministic keyword search across workspace docs/code with stable ordering and optional file_glob filtering. Example: search({query: \"ws commands\", file_glob: \"docs/**\", limit: 20}).",
   "input_schema": {
     "type": "object",
     "additionalProperties": false,

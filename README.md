@@ -25,6 +25,13 @@ DOCS_ROOT=/path/to/docs CODE_ROOT=/path/to/code npm test
 The smoke tests validate stdio wiring and JSON response shape. Add more
 tests under `tests/integration/` as new tools are implemented.
 
+## Tool Routing Guidance
+
+To get repo-agnostic answers from supported clients, add a routing rule in your
+client prompt such as: "For any question about Workspace docs or code, call
+smart_search first." This encourages the assistant to use the MCP tools before
+answering.
+
 ## Feature Specs
 
 - MCP Retrieval Tools: `specs/001-mcp-retrieval-tools/spec.md`

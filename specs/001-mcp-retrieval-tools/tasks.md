@@ -136,6 +136,7 @@ description: "Task list template for feature implementation"
 - [x] T044 Add logging smoke test in `tests/integration/logging.test.js`
 - [x] T045 Add JSON-RPC protocol smoke test in `tests/integration/jsonrpc.test.js`
 - [x] T046 Allow repo-optional tool arguments and auto-resolve paths across repos
+- [x] T047 Add tool descriptions, examples, and listChanged notification for MCP routing
 
 ---
 

@@ -44,3 +44,4 @@ All notable changes for this project will be documented in this file.
 - Fix glob handling for `**` in `file_glob` and `.gitignore` patterns.
 - Clarify `repo` schema field to prevent clients from passing filesystem paths.
 - Add descriptive tool metadata to improve agent routing.
+- Add example usage to search descriptions and signal tools/list changes.

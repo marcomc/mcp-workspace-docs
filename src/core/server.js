@@ -12,8 +12,8 @@ export class MCPServer {
       list_dir: "List files and directories in the workspace docs or code repos. Use when you need to discover structure before searching or opening files. Defaults to a virtual root when no repo/path is provided.",
       open_file: "Open a file from workspace docs or code and return the full contents with line numbers. Use for grounded citations and to inspect exact text.",
       get_snippet: "Return a specific line range from a file with line numbers. Use to quote exact evidence with minimal context and to clamp ranges safely.",
-      search: "Deterministic keyword search across workspace docs/code. Use for exact string matches and repeatable results; respects file_glob filters.",
-      smart_search: "Repo-agnostic deterministic search across workspace docs and code. Returns repo-qualified matches to help answer questions without requiring repo knowledge."
+      search: "Deterministic keyword search across workspace docs/code. Use for exact string matches and repeatable results; respects file_glob filters. Example: search({query: \"ws commands\", file_glob: \"docs/**\", limit: 20}).",
+      smart_search: "Repo-agnostic deterministic search across workspace docs and code. Returns repo-qualified matches to help answer questions without requiring repo knowledge. Example: smart_search({query: \"ws commands\", limit: 20})."
     };
   }
 
@@ -98,7 +98,7 @@ export class MCPServer {
         id,
         result: {
           protocolVersion,
-          capabilities: { tools: {} },
+          capabilities: { tools: { listChanged: true } },
           serverInfo: this.serverInfo
         }
       };
@@ -210,12 +210,25 @@ export class MCPServer {
 
   start() {
     let buffer = Buffer.alloc(0);
+    let announcedTools = false;
 
     const tryHandlePayload = async (payload) => {
       const response = await this.handleRequest(payload);
       if (response !== null && response !== undefined) {
         process.stdout.write(`${JSON.stringify(response)}\n`);
       }
+    };
+
+    const announceToolsChanged = () => {
+      if (announcedTools) {
+        return;
+      }
+      announcedTools = true;
+      const notification = {
+        jsonrpc: "2.0",
+        method: "notifications/tools/list_changed"
+      };
+      process.stdout.write(`${JSON.stringify(notification)}\n`);
     };
 
     const writeParseError = (message) => {
@@ -289,5 +302,7 @@ export class MCPServer {
         await handleLineFramed();
       }
     });
+
+    announceToolsChanged();
   }
 }
