@@ -27,6 +27,8 @@ All notable changes for this project will be documented in this file.
 ### Changed
 
 - `.gitignore` expanded for Node.js and common editor artifacts.
+- Repo argument is now optional for tools; server auto-resolves paths and
+  defaults search to both repos, with a virtual root for `list_dir`.
 
 ### Removed
 

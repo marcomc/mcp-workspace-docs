@@ -1,13 +1,22 @@
 import fs from "node:fs";
 
 import { createError } from "../errors/errors.js";
-import { resolvePathForRepo } from "../core/paths.js";
+import { getRepoCandidates, splitRepoPath } from "../core/paths.js";
 
 export async function getSnippet({ params, config }) {
-  const { repo, path, start_line: startLine, end_line: endLine } = params;
+  let { repo, path, start_line: startLine, end_line: endLine } = params;
 
   if (!path || typeof path !== "string") {
     throw createError("PATH_EMPTY", "Path must be non-empty", { repo });
+  }
+
+  if (!repo) {
+    const split = splitRepoPath(path);
+    if (split.repo) {
+      repo = split.repo;
+      path = split.path;
+      params.repo = repo;
+    }
   }
 
   if (!Number.isInteger(startLine) || !Number.isInteger(endLine)) {
@@ -26,24 +35,53 @@ export async function getSnippet({ params, config }) {
     });
   }
 
-  const { absolutePath, relativePath } = resolvePathForRepo(repo, path, config);
+  const candidates = getRepoCandidates(repo, path, config);
+  const matches = [];
 
-  let stats;
-  try {
-    stats = fs.statSync(absolutePath);
-  } catch (error) {
-    throw createError("FILE_NOT_FOUND", "File not found", { repo, path });
+  for (const candidate of candidates) {
+    let stats;
+    try {
+      stats = fs.statSync(candidate.absolutePath);
+    } catch (error) {
+      if (error?.code === "ENOENT") {
+        continue;
+      }
+      throw createError("FILE_UNREADABLE", "File not readable", {
+        repo: candidate.repo,
+        path
+      });
+    }
+
+    if (stats.isFile()) {
+      matches.push(candidate);
+    }
   }
 
-  if (!stats.isFile()) {
-    throw createError("FILE_NOT_FOUND", "File not found", { repo, path });
+  if (matches.length === 0) {
+    throw createError("FILE_NOT_FOUND", "File not found", {
+      repo: repo || "both",
+      path
+    });
   }
+
+  if (matches.length > 1) {
+    throw createError("PATH_AMBIGUOUS", "Path matches multiple repositories", {
+      path,
+      repos: matches.map((match) => match.repo)
+    });
+  }
+
+  const { absolutePath, relativePath, repo: resolvedRepo } = matches[0];
+  params.repo = resolvedRepo;
 
   let content;
   try {
     content = fs.readFileSync(absolutePath, "utf8");
   } catch (error) {
-    throw createError("FILE_UNREADABLE", "File not readable", { repo, path });
+    throw createError("FILE_UNREADABLE", "File not readable", {
+      repo: resolvedRepo,
+      path
+    });
   }
 
   const allLines = content.split(/\r?\n/);

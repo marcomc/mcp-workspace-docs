@@ -59,8 +59,7 @@ test("get_snippet clamps ranges and returns lines", async (t) => {
     params: {
       name: "get_snippet",
       arguments: {
-        repo: "docs",
-        path: "README.md",
+        path: "docs/README.md",
         start_line: 1,
         end_line: 1000
       }

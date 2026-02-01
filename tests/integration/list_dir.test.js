@@ -69,3 +69,32 @@ test("list_dir returns entries for docs root", async (t) => {
   assert.equal(envelope.meta.repo, "docs");
   assert.ok(Array.isArray(envelope.result.entries));
 });
+
+test("list_dir returns virtual root when repo omitted", async (t) => {
+  if (shouldSkip) {
+    t.skip("DOCS_ROOT and CODE_ROOT must be set");
+    return;
+  }
+
+  const payload = await runTool({
+    jsonrpc: "2.0",
+    id: 2,
+    method: "tools/call",
+    params: { name: "list_dir", arguments: { path: "" } }
+  });
+  const envelope = payload.result?.data;
+
+  if (VERBOSE_LEVEL >= 1) {
+    console.log("[list_dir] response (virtual root):", payload);
+  }
+  if (VERBOSE_LEVEL >= 2) {
+    console.log(
+      "[list_dir] response (virtual root full):",
+      JSON.stringify(payload, null, 2)
+    );
+  }
+  assert.equal(envelope.meta.repo, "both");
+  assert.ok(Array.isArray(envelope.result.entries));
+  assert.ok(envelope.result.entries.find((entry) => entry.path === "docs"));
+  assert.ok(envelope.result.entries.find((entry) => entry.path === "code"));
+});

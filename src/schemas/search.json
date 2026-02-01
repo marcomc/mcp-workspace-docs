@@ -3,7 +3,7 @@
   "input_schema": {
     "type": "object",
     "additionalProperties": false,
-    "required": ["repo", "query"],
+    "required": ["query"],
     "properties": {
       "repo": {
         "type": "string",

@@ -86,6 +86,8 @@ the filesystem and are relative to the repo root.
 - `search` with an empty query or a limit of zero returns a structured error.
 - Binary or non-text files are skipped by `search` and reported only if opened.
 - `get_snippet` clamps ranges to file bounds and errors on invalid ranges.
+- When `repo` is omitted and a path exists in both `docs` and `code`, the server
+  returns a structured `PATH_AMBIGUOUS` error.
 - Invalid repo names return a structured error with code `REPO_INVALID`.
 
 ## Constitution Constraints *(mandatory)*
@@ -139,16 +141,25 @@ the filesystem and are relative to the repo root.
   deterministic keyword search over the selected roots. Ordering is by repo
   (`docs`, `code`), then relative path (lexicographic), then line number
   ascending.
+- **FR-002A**: If `search` omits `repo`, the server MUST default to `both`.
 - **FR-003**: `search` results MUST return per-match entries with relative file
   path, line number, and matched text preview, returned in a stable order for
   identical inputs.
 - **FR-004**: `open_file` MUST return full file contents with line numbers and
   reject paths outside the configured repo root.
+- **FR-004A**: If `open_file` omits `repo`, the server MUST resolve the path
+  across `docs` and `code` and error with `PATH_AMBIGUOUS` if multiple matches
+  exist.
 - **FR-005**: `get_snippet` MUST return only the requested line range, clamping
   to file bounds and rejecting invalid ranges with clear errors.
+- **FR-005A**: If `get_snippet` omits `repo`, the server MUST resolve the path
+  across `docs` and `code` and error with `PATH_AMBIGUOUS` if multiple matches
+  exist.
 - **FR-006**: `list_dir` MUST return files and directories relative to the repo
   root and exclude hidden dotfiles/directories and ignored files (e.g.,
   `.gitignore`) when applicable.
+- **FR-006A**: If `list_dir` omits `repo` and `path`, the server MUST return a
+  virtual root containing `docs` and `code`.
 - **FR-007**: Each tool MUST define JSON schemas for inputs and outputs, and
   outputs MUST use a shared envelope: top-level `result` plus `meta` with
   `repo`, `duration_ms`, and `truncated`. Errors MUST be structured with stable,

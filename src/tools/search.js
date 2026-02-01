@@ -113,7 +113,7 @@ function searchRepo(repo, query, fileGlob, limit, config) {
 }
 
 export async function search({ params, config }) {
-  const { repo, query, file_glob: fileGlob, limit } = params;
+  let { repo, query, file_glob: fileGlob, limit } = params;
 
   if (!query || typeof query !== "string" || query.trim() === "") {
     throw createError("QUERY_EMPTY", "Query must be non-empty", { repo });
@@ -127,7 +127,12 @@ export async function search({ params, config }) {
     });
   }
 
-  if (!repo || !["docs", "code", "both"].includes(repo)) {
+  if (!repo) {
+    repo = "both";
+    params.repo = repo;
+  }
+
+  if (!["docs", "code", "both"].includes(repo)) {
     throw createError("REPO_INVALID", "Repo must be docs, code, or both", {
       repo
     });
