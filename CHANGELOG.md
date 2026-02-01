@@ -17,6 +17,7 @@ All notable changes for this project will be documented in this file.
 - `open_file` and `list_dir` tools with schemas.
 - Smoke tests for `list_dir` and `open_file`.
 - `get_snippet` tool with schema and smoke test.
+- Deterministic search tool, schema, and smoke test.
 
 ### Changed
 

@@ -5,6 +5,7 @@ import { ping } from "./tools/ping.js";
 import { listDir } from "./tools/list_dir.js";
 import { openFile } from "./tools/open_file.js";
 import { getSnippet } from "./tools/get_snippet.js";
+import { search } from "./tools/search.js";
 
 const config = loadConfig();
 validateConfig(config);
@@ -15,7 +16,8 @@ const server = new MCPServer({
     ping,
     list_dir: listDir,
     open_file: openFile,
-    get_snippet: getSnippet
+    get_snippet: getSnippet,
+    search
   }
 });
 

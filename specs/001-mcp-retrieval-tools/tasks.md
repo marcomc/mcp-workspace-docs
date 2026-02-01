@@ -44,7 +44,7 @@ description: "Task list template for feature implementation"
 - [x] T006 Implement repo root resolver + path guard in `src/core/paths.js`
 - [x] T007 Define shared response envelope helper in `src/core/response.js`
 - [x] T008 Define structured error helpers and codes in `src/errors/errors.js`
-- [ ] T009 Implement deterministic ordering utilities in `src/core/order.js`
+- [x] T009 Implement deterministic ordering utilities in `src/core/order.js`
 - [x] T010 Implement ignore rules (dotfiles + .gitignore) in `src/core/ignore.js`
 - [x] T011 Wire stdio server entrypoint and tool registry in `src/index.js`
 - [x] T011B Define schema for `ping` output in `src/schemas/ping.json`
@@ -62,10 +62,10 @@ description: "Task list template for feature implementation"
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] Define schema for `search` output in `src/schemas/search.json`
+- [x] T012 [P] Define schema for `search` output in `src/schemas/search.json`
 - [x] T013 [P] Define schema for `open_file` output in `src/schemas/open_file.json`
 - [x] T014 [P] Define schema for `get_snippet` output in `src/schemas/get_snippet.json`
-- [ ] T015 [US1] Implement `search` tool in `src/tools/search.js`
+- [x] T015 [US1] Implement `search` tool in `src/tools/search.js`
 - [x] T016 [US1] Implement `open_file` tool in `src/tools/open_file.js`
 - [x] T017 [US1] Implement `get_snippet` tool in `src/tools/get_snippet.js`
 - [ ] T018 [US1] Register US1 tools in `src/core/server.js`
@@ -127,6 +127,7 @@ description: "Task list template for feature implementation"
 - [x] T039 Add list_dir smoke test in `tests/integration/list_dir.test.js`
 - [x] T040 Add open_file smoke test in `tests/integration/open_file.test.js`
 - [x] T041 Add get_snippet smoke test in `tests/integration/get_snippet.test.js`
+- [x] T042 Add search smoke test in `tests/integration/search.test.js`
 
 ---
 
