@@ -26,12 +26,12 @@ As a developer using an MCP client, I want to search and retrieve content from
 `docs` and `code` repositories with deterministic ordering so I can rely on
 repeatable answers across clients.
 
-**Why this priority**: This is the primary capability required for MCP clients to
-surface evidence-backed answers.
+**Why this priority**: This is the primary capability required for MCP clients
+to surface evidence-backed answers.
 
-**Independent Test**: Run `list_dir` to confirm server connectivity, then provide a
-fixed query against a static repository snapshot and confirm identical ordered
-results across multiple runs.
+**Independent Test**: Run `list_dir` to confirm server connectivity, then
+provide a fixed query against a static repository snapshot and confirm identical
+ordered results across multiple runs.
 
 **Acceptance Scenarios**:
 
@@ -52,10 +52,11 @@ results across multiple runs.
 As a security-conscious operator, I want the server to reject invalid or unsafe
 paths so that clients cannot access data outside the configured repositories.
 
-**Why this priority**: Prevents data leakage and enforces least-privilege access.
+**Why this priority**: Prevents data leakage and enforces least-privilege
+access.
 
-**Independent Test**: Attempt to access a path outside the repo root and verify a
-structured error response.
+**Independent Test**: Attempt to access a path outside the repo root and verify
+a structured error response.
 
 **Acceptance Scenarios**:
 

@@ -17,10 +17,12 @@ All notable changes for this project will be documented in this file.
 - Smoke tests for `list_dir` and `open_file`.
 - `get_snippet` tool with schema and smoke test.
 - Deterministic search tool, schema, and smoke test.
-- Documentation alignment for quality gates, error catalog, acceptance checks, and ordering rules.
+- Documentation alignment for quality gates, error catalog, acceptance checks,
+  and ordering rules.
 - Structured request and error logging (stderr).
 - Logging smoke test for structured request entries.
-- Added validation checklists for determinism, schema shape, stdio/offline, and read-only guards.
+- Added validation checklists for determinism, schema shape, stdio/offline, and
+  read-only guards.
 - MCP JSON-RPC protocol support (initialize, tools/list, tools/call).
 - JSON-RPC protocol smoke test.
 - Smart search tool for repo-agnostic discovery.
@@ -37,10 +39,12 @@ All notable changes for this project will be documented in this file.
 
 ### Fixed
 
-- Load tool schemas relative to server file location to avoid missing schemas in client runtimes.
+- Load tool schemas relative to server file location to avoid missing schemas in
+  client runtimes.
 - Provide default input schema in MCP `tools/list` when schema is unavailable.
 - Support Content-Length framed JSON-RPC messages over stdio.
-- Ignore MCP initialization notifications and avoid responding to notification messages.
+- Ignore MCP initialization notifications and avoid responding to notification
+  messages.
 - Fix glob handling for `**` in `file_glob` and `.gitignore` patterns.
 - Clarify `repo` schema field to prevent clients from passing filesystem paths.
 - Add descriptive tool metadata to improve agent routing.

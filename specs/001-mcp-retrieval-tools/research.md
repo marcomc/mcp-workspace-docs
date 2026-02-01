@@ -13,6 +13,7 @@
 stable, widely available runtime for MCP clients.
 
 **Alternatives considered**:
+
 - Node.js 18 LTS (older baseline, shorter runway)
 - Other runtimes (not allowed by spec)
 
@@ -25,6 +26,7 @@ relative path (lexicographic), then by line number ascending.
 identical inputs.
 
 **Alternatives considered**:
+
 - Filesystem traversal order (non-deterministic across platforms)
 - Relevance scoring (adds complexity and non-determinism)
 
@@ -36,6 +38,7 @@ invalid.
 **Rationale**: Prevents partial functionality and avoids hidden runtime errors.
 
 **Alternatives considered**:
+
 - Per-tool validation on call (more runtime error paths)
 - Allowing only one root (inconsistent behavior across repos)
 
@@ -46,6 +49,7 @@ invalid.
 **Rationale**: Consistent client handling and easy troubleshooting.
 
 **Alternatives considered**:
+
 - Plain text errors only
 - Extended error schema with retryable flags (not required)
 
@@ -58,6 +62,7 @@ containing `repo`, `duration_ms`, and `truncated`.
 payloads lightweight.
 
 **Alternatives considered**:
+
 - No shared envelope
 - Expanded envelope with pagination structures (not required yet)
 
@@ -69,6 +74,7 @@ rules (e.g., `.gitignore`).
 **Rationale**: Avoids noise and respects common developer expectations.
 
 **Alternatives considered**:
+
 - Include hidden/ignored files by default
 - Exclude dotfiles only (ignore rules not applied)
 
@@ -81,5 +87,6 @@ defaulting to both repos and auto-resolving paths.
 deterministic behavior and clear ambiguity errors.
 
 **Alternatives considered**:
+
 - Require `repo` for all tools (more friction for users)
 - Add client-side routing only (inconsistent across clients)

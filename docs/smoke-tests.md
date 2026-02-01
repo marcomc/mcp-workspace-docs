@@ -19,7 +19,6 @@ Repository-wide smoke test checklists for supported MCP clients.
 - [x] Run `open_file` and verify line numbers
 - [x] Run `get_snippet` for a small range and verify lines
 
-
 ## Notes
 
 - Record client version and environment details.

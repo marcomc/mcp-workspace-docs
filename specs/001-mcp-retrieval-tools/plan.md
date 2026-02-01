@@ -1,9 +1,11 @@
 # Implementation Plan: MCP Retrieval Tools
 
-**Branch**: `001-mcp-retrieval-tools` | **Date**: 2026-02-01 | **Spec**: /Users/mmassari/Development/MCP/mcp-workspace-docs/specs/001-mcp-retrieval-tools/spec.md
+**Branch**: `001-mcp-retrieval-tools` | **Date**: 2026-02-01 | **Spec**:
+/Users/mmassari/Development/MCP/mcp-workspace-docs/specs/001-mcp-retrieval-tools/spec.md
 **Input**: Feature specification from `/specs/001-mcp-retrieval-tools/spec.md`
 
-**Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
+**Note**: This template is filled in by the `/speckit.plan` command. See
+`.specify/templates/commands/plan.md` for the execution workflow.
 
 ## Summary
 
@@ -21,7 +23,8 @@ errors.
 **Testing**: Node.js built-in test runner (`node --test`)  
 **Target Platform**: macOS and Linux local execution  
 **Project Type**: single  
-**Performance Goals**: 95% of search requests <= 2 seconds on repos up to 1M lines  
+**Performance Goals**: 95% of search requests <= 2 seconds on repos up to 1M
+lines  
 **Constraints**: stdio-only, offline, deterministic ordering, read-only access  
 **Scale/Scope**: two repo roots (`docs`, `code`) per server instance
 
@@ -40,8 +43,9 @@ errors.
 
 Status: PASS
 
-Post-design re-check: PASS (schemas, envelope, error shape, deterministic rules,
-stdio-only, offline, and read-only constraints captured in design artifacts).
+Post-design re-check: PASS (schemas, envelope, error shape, deterministic
+rules, stdio-only, offline, and read-only constraints captured in design
+artifacts).
 
 ## Project Structure
 
@@ -54,7 +58,8 @@ specs/001-mcp-retrieval-tools/
 ├── data-model.md        # Phase 1 output (/speckit.plan command)
 ├── quickstart.md        # Phase 1 output (/speckit.plan command)
 ├── contracts/           # Phase 1 output (/speckit.plan command)
-└── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
+└── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created
+                         # by /speckit.plan)
 ```
 
 ### Source Code (repository root)

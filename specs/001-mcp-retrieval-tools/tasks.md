@@ -6,11 +6,13 @@ description: "Task list template for feature implementation"
 # Tasks: MCP Retrieval Tools
 
 **Input**: Design documents from `/specs/001-mcp-retrieval-tools/`
-**Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
+**Prerequisites**: plan.md (required), spec.md (required for user stories),
+research.md, data-model.md, contracts/
 
 **Tests**: No tests requested in the feature specification.
 
-**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
+**Organization**: Tasks are grouped by user story to enable independent
+implementation and testing of each story.
 
 ## Format: `[ID] [P?] [Story] Description`
 
@@ -35,7 +37,8 @@ description: "Task list template for feature implementation"
 
 ## Phase 2: Foundational (Blocking Prerequisites)
 
-**Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
+**Purpose**: Core infrastructure that MUST be complete before ANY user story
+can be implemented
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
@@ -51,15 +54,18 @@ description: "Task list template for feature implementation"
 - [x] T011A Define default `search` limit (200) in `src/core/limits.js`
 - [x] T011C Implement MCP JSON-RPC protocol handling in `src/core/server.js`
 
-**Checkpoint**: Foundation ready - user story implementation can now begin in parallel
+**Checkpoint**: Foundation ready - user story implementation can now begin in
+parallel
 
 ---
 
-## Phase 3: User Story 1 - Retrieve content with deterministic search (Priority: P1) 🎯 MVP
+## Phase 3: User Story 1 - Deterministic search (P1 MVP)
 
-**Goal**: Deterministic search and file/snippet retrieval across `docs` and `code`
+**Goal**: Deterministic search and file/snippet retrieval across `docs` and
+`code`
 
-**Independent Test**: Run identical queries against static repos and verify stable ordering and outputs
+**Independent Test**: Run identical queries against static repos and verify
+stable ordering and outputs
 
 ### Implementation for User Story 1
 
@@ -73,7 +79,8 @@ description: "Task list template for feature implementation"
 - [x] T017 [US1] Implement `get_snippet` tool in `src/tools/get_snippet.js`
 - [x] T018 [US1] Register US1 tools in `src/core/server.js`
 
-**Checkpoint**: User Story 1 should be fully functional and testable independently
+**Checkpoint**: User Story 1 should be fully functional and testable
+independently
 
 ---
 
@@ -81,7 +88,8 @@ description: "Task list template for feature implementation"
 
 **Goal**: Enforce repo boundary and read-only safety with clear errors
 
-**Independent Test**: Attempt traversal paths and invalid configs; verify structured errors
+**Independent Test**: Attempt traversal paths and invalid configs; verify
+structured errors
 
 ### Implementation for User Story 2
 
@@ -97,7 +105,8 @@ description: "Task list template for feature implementation"
 
 **Goal**: Provide deterministic directory listings with ignore rules
 
-**Independent Test**: List root and subdirectories; verify hidden/ignored files are excluded
+**Independent Test**: List root and subdirectories; verify hidden/ignored files
+are excluded
 
 ### Implementation for User Story 3
 
@@ -113,11 +122,16 @@ description: "Task list template for feature implementation"
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [x] T025 [P] Document tool schemas and envelope usage in `docs/schema-examples.md`
-- [x] T026 Verify deterministic ordering for search results in `tests/integration/determinism.md`
-- [x] T027 Validate tool schemas and pagination/chunking behavior in `tests/integration/schemas.md`
-- [x] T028 Confirm stdio-only operation and no network usage in `tests/integration/stdio.md`
-- [x] T029 Ensure read-only filesystem guards prevent root escape in `tests/integration/security.md`
+- [x] T025 [P] Document tool schemas and envelope usage in
+  `docs/schema-examples.md`
+- [x] T026 Verify deterministic ordering for search results in
+  `tests/integration/determinism.md`
+- [x] T027 Validate tool schemas and pagination/chunking behavior in
+  `tests/integration/schemas.md`
+- [x] T028 Confirm stdio-only operation and no network usage in
+  `tests/integration/stdio.md`
+- [x] T029 Ensure read-only filesystem guards prevent root escape in
+  `tests/integration/security.md`
 - [x] T030 Add Definition of Done and PR checklist to `docs/quality.md`
 - [x] T031 Add tool schema examples to `docs/schema-examples.md`
 - [x] T032 Document tool error cases and messages in `docs/errors.md`
@@ -125,18 +139,23 @@ description: "Task list template for feature implementation"
 - [x] T034 Add deterministic ordering rules to `docs/schema-examples.md`
 - [x] T035 Add minimal structured logging to `src/core/logging.js`
 - [x] T036 Emit per-request logs in `src/core/server.js`
-- [x] T037 Run a non-McpOne client smoke test and capture notes in `docs/smoke-tests.md`
+- [x] T037 Run a non-McpOne client smoke test and capture notes in
+  `docs/smoke-tests.md`
 - [x] T038 Remove `ping` smoke test
 - [x] T039 Add list_dir smoke test in `tests/integration/list_dir.test.js`
 - [x] T040 Add open_file smoke test in `tests/integration/open_file.test.js`
 - [x] T041 Add get_snippet smoke test in `tests/integration/get_snippet.test.js`
 - [x] T042 Add search smoke test in `tests/integration/search.test.js`
-- [x] T042A Add smart_search smoke test in `tests/integration/smart_search.test.js`
+- [x] T042A Add smart_search smoke test in
+  `tests/integration/smart_search.test.js`
 - [x] T043 Add MCP client installation guide in `docs/installation.md`
 - [x] T044 Add logging smoke test in `tests/integration/logging.test.js`
-- [x] T045 Add JSON-RPC protocol smoke test in `tests/integration/jsonrpc.test.js`
-- [x] T046 Allow repo-optional tool arguments and auto-resolve paths across repos
-- [x] T047 Add tool descriptions, examples, and listChanged notification for MCP routing
+- [x] T045 Add JSON-RPC protocol smoke test in
+  `tests/integration/jsonrpc.test.js`
+- [x] T046 Allow repo-optional tool arguments and auto-resolve paths across
+  repos
+- [x] T047 Add tool descriptions, examples, and listChanged notification for MCP
+  routing
 
 ---
 
@@ -145,7 +164,8 @@ description: "Task list template for feature implementation"
 ### Phase Dependencies
 
 - **Setup (Phase 1)**: No dependencies - can start immediately
-- **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
+- **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user
+  stories
 - **User Stories (Phase 3+)**: All depend on Foundational phase completion
   - User stories can then proceed in parallel (if staffed)
   - Or sequentially in priority order (P1 → P2 → P3)
@@ -153,9 +173,12 @@ description: "Task list template for feature implementation"
 
 ### User Story Dependencies
 
-- **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories
-- **User Story 2 (P2)**: Can start after Foundational (Phase 2) - Enforces constraints across US1 tools
-- **User Story 3 (P3)**: Can start after Foundational (Phase 2) - Independent of US1/US2
+- **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No
+  dependencies on other stories
+- **User Story 2 (P2)**: Can start after Foundational (Phase 2) - Enforces
+  constraints across US1 tools
+- **User Story 3 (P3)**: Can start after Foundational (Phase 2) - Independent of
+  US1/US2
 
 ### Within Each User Story
 

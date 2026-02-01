@@ -20,7 +20,7 @@ Set the repository roots before starting the server:
 1. Open McpOne and navigate to **Local Servers**.
 2. Click **Add**.
 3. Fill in:
-   - **Name**: MCP Workspace Docs 
+   - **Name**: MCP Workspace Docs
    - **Command**: `node`
    - **Args**: `./src/index.js`
    - **Working Directory**: repository root
@@ -30,7 +30,7 @@ Set the repository roots before starting the server:
 **Config snippet (reference):**
 
 ```json
-{ 
+{
   "name": "MCP Workspace Docs",
   "command": "node",
   "args": ["./src/index.js"],
