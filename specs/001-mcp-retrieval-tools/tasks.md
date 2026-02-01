@@ -71,7 +71,7 @@ description: "Task list template for feature implementation"
 - [x] T015A [US1] Implement `smart_search` tool in `src/tools/smart_search.js`
 - [x] T016 [US1] Implement `open_file` tool in `src/tools/open_file.js`
 - [x] T017 [US1] Implement `get_snippet` tool in `src/tools/get_snippet.js`
-- [ ] T018 [US1] Register US1 tools in `src/core/server.js`
+- [x] T018 [US1] Register US1 tools in `src/core/server.js`
 
 **Checkpoint**: User Story 1 should be fully functional and testable independently
 
@@ -85,9 +85,9 @@ description: "Task list template for feature implementation"
 
 ### Implementation for User Story 2
 
-- [ ] T019 [US2] Enforce path guard usage in `src/tools/open_file.js`
-- [ ] T020 [US2] Enforce path guard usage in `src/tools/get_snippet.js`
-- [ ] T021 [US2] Ensure config validation triggers startup failure in `src/index.js`
+- [x] T019 [US2] Enforce path guard usage in `src/tools/open_file.js`
+- [x] T020 [US2] Enforce path guard usage in `src/tools/get_snippet.js`
+- [x] T021 [US2] Ensure config validation triggers startup failure in `src/index.js`
 
 **Checkpoint**: Security and read-only constraints enforced across tools
 
@@ -103,7 +103,7 @@ description: "Task list template for feature implementation"
 
 - [x] T022 [P] Define schema for `list_dir` output in `src/schemas/list_dir.json`
 - [x] T023 [US3] Implement `list_dir` tool in `src/tools/list_dir.js`
-- [ ] T024 [US3] Register `list_dir` tool in `src/core/server.js`
+- [x] T024 [US3] Register `list_dir` tool in `src/core/server.js`
 
 **Checkpoint**: User Stories 1-3 should all work independently
 
@@ -132,7 +132,7 @@ description: "Task list template for feature implementation"
 - [x] T041 Add get_snippet smoke test in `tests/integration/get_snippet.test.js`
 - [x] T042 Add search smoke test in `tests/integration/search.test.js`
 - [x] T042A Add smart_search smoke test in `tests/integration/smart_search.test.js`
-- [ ] T043 Add MCP client installation guide in `docs/installation.md`
+- [x] T043 Add MCP client installation guide in `docs/installation.md`
 - [x] T044 Add logging smoke test in `tests/integration/logging.test.js`
 - [x] T045 Add JSON-RPC protocol smoke test in `tests/integration/jsonrpc.test.js`
 - [x] T046 Allow repo-optional tool arguments and auto-resolve paths across repos
