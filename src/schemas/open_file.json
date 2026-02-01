@@ -1,5 +1,6 @@
 {
   "tool": "open_file",
+  "description": "Open a file from workspace docs or code and return full contents with line numbers for grounded citations.",
   "input_schema": {
     "type": "object",
     "additionalProperties": false,

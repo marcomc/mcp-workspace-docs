@@ -8,6 +8,13 @@ export class MCPServer {
     this.config = config;
     this.toolSchemas = toolSchemas || {};
     this.serverInfo = serverInfo || { name: "MCP Workspace Doc", version: "0.1.0" };
+    this.toolDescriptions = {
+      list_dir: "List files and directories in the workspace docs or code repos. Use when you need to discover structure before searching or opening files. Defaults to a virtual root when no repo/path is provided.",
+      open_file: "Open a file from workspace docs or code and return the full contents with line numbers. Use for grounded citations and to inspect exact text.",
+      get_snippet: "Return a specific line range from a file with line numbers. Use to quote exact evidence with minimal context and to clamp ranges safely.",
+      search: "Deterministic keyword search across workspace docs/code. Use for exact string matches and repeatable results; respects file_glob filters.",
+      smart_search: "Repo-agnostic deterministic search across workspace docs and code. Returns repo-qualified matches to help answer questions without requiring repo knowledge."
+    };
   }
 
   async handleRequest(payload) {
@@ -103,7 +110,7 @@ export class MCPServer {
       }
       const tools = Object.keys(this.tools).map((name) => ({
         name,
-        description: "",
+        description: this.toolDescriptions[name] || "",
         inputSchema: this.toolSchemas[name]?.input_schema || {
           type: "object",
           additionalProperties: false,

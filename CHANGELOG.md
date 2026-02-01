@@ -43,3 +43,4 @@ All notable changes for this project will be documented in this file.
 - Ignore MCP initialization notifications and avoid responding to notification messages.
 - Fix glob handling for `**` in `file_glob` and `.gitignore` patterns.
 - Clarify `repo` schema field to prevent clients from passing filesystem paths.
+- Add descriptive tool metadata to improve agent routing.

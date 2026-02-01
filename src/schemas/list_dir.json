@@ -1,5 +1,6 @@
 {
   "tool": "list_dir",
+  "description": "List files and directories in the workspace docs or code repos. Use for discovery before opening files or searching.",
   "input_schema": {
     "type": "object",
     "additionalProperties": false,

@@ -1,5 +1,6 @@
 {
   "tool": "search",
+  "description": "Deterministic keyword search across workspace docs/code with stable ordering and optional file_glob filtering.",
   "input_schema": {
     "type": "object",
     "additionalProperties": false,
