@@ -41,3 +41,5 @@ All notable changes for this project will be documented in this file.
 - Provide default input schema in MCP `tools/list` when schema is unavailable.
 - Support Content-Length framed JSON-RPC messages over stdio.
 - Ignore MCP initialization notifications and avoid responding to notification messages.
+- Fix glob handling for `**` in `file_glob` and `.gitignore` patterns.
+- Clarify `repo` schema field to prevent clients from passing filesystem paths.

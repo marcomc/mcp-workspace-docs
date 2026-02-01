@@ -7,7 +7,8 @@
     "properties": {
       "repo": {
         "type": "string",
-        "enum": ["docs", "code", "both"]
+        "enum": ["docs", "code", "both"],
+        "description": "Logical repository name (docs, code, or both). Do not pass filesystem paths."
       },
       "query": {
         "type": "string",

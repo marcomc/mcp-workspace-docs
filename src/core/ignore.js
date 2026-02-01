@@ -3,16 +3,12 @@ import path from "node:path";
 
 const GLOB_SPECIALS = /[.+^${}()|[\]\\]/g;
 
-function escapeRegex(value) {
-  return value.replace(GLOB_SPECIALS, "\\$&");
-}
-
 function globToRegex(pattern) {
-  let source = escapeRegex(pattern);
+  let source = pattern.replace(GLOB_SPECIALS, "\\$&");
   source = source
-    .replace(/\\\*\\\*/g, ".*")
-    .replace(/\\\*/g, "[^/]*")
-    .replace(/\\\?/g, ".");
+    .replace(/\*\*/g, ".*")
+    .replace(/\*/g, "[^/]*")
+    .replace(/\?/g, ".");
 
   return new RegExp(source);
 }

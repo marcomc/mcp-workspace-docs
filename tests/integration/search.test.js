@@ -84,3 +84,36 @@ test("search returns stable ordering for identical inputs", async (t) => {
   assert.deepEqual(firstEnvelope.result, secondEnvelope.result);
   assert.ok(Array.isArray(firstEnvelope.result));
 });
+
+test("search accepts glob patterns with **", async (t) => {
+  if (shouldSkip) {
+    t.skip("DOCS_ROOT and CODE_ROOT must be set");
+    return;
+  }
+
+  const payload = await runTool({
+    jsonrpc: "2.0",
+    id: 2,
+    method: "tools/call",
+    params: {
+      name: "search",
+      arguments: {
+        repo: "docs",
+        query: "Workspace",
+        file_glob: "**/*.md",
+        limit: 5
+      }
+    }
+  });
+  const envelope = payload.result?.data;
+
+  if (VERBOSE_LEVEL >= 1) {
+    console.log("[search] glob response:", payload);
+  }
+  if (VERBOSE_LEVEL >= 2) {
+    console.log("[search] glob response (full):", JSON.stringify(payload, null, 2));
+  }
+
+  assert.equal(envelope.meta.repo, "docs");
+  assert.ok(Array.isArray(envelope.result));
+});
