@@ -64,10 +64,10 @@ description: "Task list template for feature implementation"
 
 - [ ] T012 [P] Define schema for `search` output in `src/schemas/search.json`
 - [x] T013 [P] Define schema for `open_file` output in `src/schemas/open_file.json`
-- [ ] T014 [P] Define schema for `get_snippet` output in `src/schemas/get_snippet.json`
+- [x] T014 [P] Define schema for `get_snippet` output in `src/schemas/get_snippet.json`
 - [ ] T015 [US1] Implement `search` tool in `src/tools/search.js`
 - [x] T016 [US1] Implement `open_file` tool in `src/tools/open_file.js`
-- [ ] T017 [US1] Implement `get_snippet` tool in `src/tools/get_snippet.js`
+- [x] T017 [US1] Implement `get_snippet` tool in `src/tools/get_snippet.js`
 - [ ] T018 [US1] Register US1 tools in `src/core/server.js`
 
 **Checkpoint**: User Story 1 should be fully functional and testable independently
@@ -126,6 +126,7 @@ description: "Task list template for feature implementation"
 - [x] T038 Add ping smoke test in `tests/integration/ping.test.js`
 - [x] T039 Add list_dir smoke test in `tests/integration/list_dir.test.js`
 - [x] T040 Add open_file smoke test in `tests/integration/open_file.test.js`
+- [x] T041 Add get_snippet smoke test in `tests/integration/get_snippet.test.js`
 
 ---
 

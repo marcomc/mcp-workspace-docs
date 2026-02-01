@@ -16,6 +16,7 @@ All notable changes for this project will be documented in this file.
 - Ignore rules loader for dotfiles and `.gitignore`.
 - `open_file` and `list_dir` tools with schemas.
 - Smoke tests for `list_dir` and `open_file`.
+- `get_snippet` tool with schema and smoke test.
 
 ### Changed
 

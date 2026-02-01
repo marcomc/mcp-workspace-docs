@@ -1,0 +1,82 @@
+{
+  "tool": "get_snippet",
+  "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["repo", "path", "start_line", "end_line"],
+    "properties": {
+      "repo": {
+        "type": "string",
+        "enum": ["docs", "code"]
+      },
+      "path": {
+        "type": "string",
+        "minLength": 1
+      },
+      "start_line": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "end_line": {
+        "type": "integer",
+        "minimum": 1
+      }
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["result", "meta"],
+    "properties": {
+      "result": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "start_line", "end_line", "lines"],
+        "properties": {
+          "path": { "type": "string" },
+          "start_line": { "type": "integer", "minimum": 1 },
+          "end_line": { "type": "integer", "minimum": 1 },
+          "lines": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["line", "text"],
+              "properties": {
+                "line": { "type": "integer", "minimum": 1 },
+                "text": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "meta": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["repo", "duration_ms", "truncated"],
+        "properties": {
+          "repo": { "type": "string", "enum": ["docs", "code"] },
+          "duration_ms": { "type": "integer", "minimum": 0 },
+          "truncated": { "type": "boolean" }
+        }
+      }
+    }
+  },
+  "error_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["error"],
+    "properties": {
+      "error": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "message", "details"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "details": { "type": "object" }
+        }
+      }
+    }
+  }
+}
