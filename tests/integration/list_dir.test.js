@@ -4,6 +4,7 @@ import test from "node:test";
 
 const DOCS_ROOT = process.env.DOCS_ROOT;
 const CODE_ROOT = process.env.CODE_ROOT;
+const VERBOSE_LEVEL = Number(process.env.TEST_VERBOSE || "0");
 
 const shouldSkip = !DOCS_ROOT || !CODE_ROOT;
 
@@ -56,6 +57,12 @@ test("list_dir returns entries for docs root", async (t) => {
     params: { repo: "docs", path: "" }
   });
 
+  if (VERBOSE_LEVEL >= 1) {
+    console.log("[list_dir] response:", payload);
+  }
+  if (VERBOSE_LEVEL >= 2) {
+    console.log("[list_dir] response (full):", JSON.stringify(payload, null, 2));
+  }
   assert.equal(payload.meta.repo, "docs");
   assert.ok(Array.isArray(payload.result.entries));
 });

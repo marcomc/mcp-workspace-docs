@@ -4,6 +4,7 @@ import test from "node:test";
 
 const DOCS_ROOT = process.env.DOCS_ROOT;
 const CODE_ROOT = process.env.CODE_ROOT;
+const VERBOSE_LEVEL = Number(process.env.TEST_VERBOSE || "0");
 
 const shouldSkip = !DOCS_ROOT || !CODE_ROOT;
 
@@ -61,6 +62,12 @@ test("get_snippet clamps ranges and returns lines", async (t) => {
     }
   });
 
+  if (VERBOSE_LEVEL >= 1) {
+    console.log("[get_snippet] response:", payload);
+  }
+  if (VERBOSE_LEVEL >= 2) {
+    console.log("[get_snippet] response (full):", JSON.stringify(payload, null, 2));
+  }
   assert.equal(payload.meta.repo, "docs");
   assert.ok(payload.result.lines.length >= 1);
   assert.ok(payload.result.start_line >= 1);

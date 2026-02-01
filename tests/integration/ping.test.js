@@ -4,6 +4,7 @@ import test from "node:test";
 
 const DOCS_ROOT = process.env.DOCS_ROOT;
 const CODE_ROOT = process.env.CODE_ROOT;
+const VERBOSE_LEVEL = Number(process.env.TEST_VERBOSE || "0");
 
 const shouldSkip = !DOCS_ROOT || !CODE_ROOT;
 
@@ -50,6 +51,12 @@ const shouldSkip = !DOCS_ROOT || !CODE_ROOT;
   child.kill();
 
   const payload = JSON.parse(response);
+  if (VERBOSE_LEVEL >= 1) {
+    console.log("[ping] response:", payload);
+  }
+  if (VERBOSE_LEVEL >= 2) {
+    console.log("[ping] response (full):", JSON.stringify(payload, null, 2));
+  }
   assert.equal(payload.result.status, "ok");
   assert.equal(typeof payload.result.version, "string");
   assert.equal(typeof payload.meta.duration_ms, "number");
