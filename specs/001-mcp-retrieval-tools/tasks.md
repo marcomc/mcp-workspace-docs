@@ -45,7 +45,7 @@ description: "Task list template for feature implementation"
 - [x] T007 Define shared response envelope helper in `src/core/response.js`
 - [x] T008 Define structured error helpers and codes in `src/errors/errors.js`
 - [ ] T009 Implement deterministic ordering utilities in `src/core/order.js`
-- [ ] T010 Implement ignore rules (dotfiles + .gitignore) in `src/core/ignore.js`
+- [x] T010 Implement ignore rules (dotfiles + .gitignore) in `src/core/ignore.js`
 - [x] T011 Wire stdio server entrypoint and tool registry in `src/index.js`
 - [x] T011B Define schema for `ping` output in `src/schemas/ping.json`
 - [x] T011A Define default `search` limit (200) in `src/core/limits.js`
@@ -63,10 +63,10 @@ description: "Task list template for feature implementation"
 ### Implementation for User Story 1
 
 - [ ] T012 [P] Define schema for `search` output in `src/schemas/search.json`
-- [ ] T013 [P] Define schema for `open_file` output in `src/schemas/open_file.json`
+- [x] T013 [P] Define schema for `open_file` output in `src/schemas/open_file.json`
 - [ ] T014 [P] Define schema for `get_snippet` output in `src/schemas/get_snippet.json`
 - [ ] T015 [US1] Implement `search` tool in `src/tools/search.js`
-- [ ] T016 [US1] Implement `open_file` tool in `src/tools/open_file.js`
+- [x] T016 [US1] Implement `open_file` tool in `src/tools/open_file.js`
 - [ ] T017 [US1] Implement `get_snippet` tool in `src/tools/get_snippet.js`
 - [ ] T018 [US1] Register US1 tools in `src/core/server.js`
 
@@ -98,8 +98,8 @@ description: "Task list template for feature implementation"
 
 ### Implementation for User Story 3
 
-- [ ] T022 [P] Define schema for `list_dir` output in `src/schemas/list_dir.json`
-- [ ] T023 [US3] Implement `list_dir` tool in `src/tools/list_dir.js`
+- [x] T022 [P] Define schema for `list_dir` output in `src/schemas/list_dir.json`
+- [x] T023 [US3] Implement `list_dir` tool in `src/tools/list_dir.js`
 - [ ] T024 [US3] Register `list_dir` tool in `src/core/server.js`
 
 **Checkpoint**: User Stories 1-3 should all work independently
@@ -124,6 +124,8 @@ description: "Task list template for feature implementation"
 - [ ] T036 Emit per-request logs in `src/core/server.js`
 - [ ] T037 Run a non-McpOne client smoke test and capture notes in `docs/smoke-tests.md`
 - [x] T038 Add ping smoke test in `tests/integration/ping.test.js`
+- [x] T039 Add list_dir smoke test in `tests/integration/list_dir.test.js`
+- [x] T040 Add open_file smoke test in `tests/integration/open_file.test.js`
 
 ---
 

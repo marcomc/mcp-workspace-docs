@@ -13,6 +13,9 @@ All notable changes for this project will be documented in this file.
 - Ping tool contract and schema.
 - Path guard utility for repo-root enforcement.
 - Default search limit constant (200).
+- Ignore rules loader for dotfiles and `.gitignore`.
+- `open_file` and `list_dir` tools with schemas.
+- Smoke tests for `list_dir` and `open_file`.
 
 ### Changed
 
