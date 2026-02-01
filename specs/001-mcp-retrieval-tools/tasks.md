@@ -125,7 +125,7 @@ description: "Task list template for feature implementation"
 - [x] T034 Add deterministic ordering rules to `docs/schema-examples.md`
 - [x] T035 Add minimal structured logging to `src/core/logging.js`
 - [x] T036 Emit per-request logs in `src/core/server.js`
-- [ ] T037 Run a non-McpOne client smoke test and capture notes in `docs/smoke-tests.md`
+- [x] T037 Run a non-McpOne client smoke test and capture notes in `docs/smoke-tests.md`
 - [x] T038 Remove `ping` smoke test
 - [x] T039 Add list_dir smoke test in `tests/integration/list_dir.test.js`
 - [x] T040 Add open_file smoke test in `tests/integration/open_file.test.js`

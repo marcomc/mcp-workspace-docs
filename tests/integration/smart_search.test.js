@@ -22,18 +22,36 @@ async function runTool(request) {
 
   const response = await new Promise((resolve, reject) => {
     let buffer = "";
+    const expectedId = request.id;
     const timeout = setTimeout(() => {
       reject(new Error("smart_search test timed out"));
     }, 2000);
 
     child.stdout.on("data", (data) => {
       buffer += data.toString();
-      const line = buffer.trim().split("\n")[0];
-      if (!line) {
+      const lines = buffer.split("\n");
+      buffer = lines.pop() || "";
+
+      for (const line of lines) {
+        if (!line.trim()) {
+          continue;
+        }
+        let parsed;
+        try {
+          parsed = JSON.parse(line);
+        } catch (error) {
+          continue;
+        }
+        if (parsed?.method?.startsWith("notifications/")) {
+          continue;
+        }
+        if (expectedId !== undefined && parsed?.id !== expectedId) {
+          continue;
+        }
+        clearTimeout(timeout);
+        resolve(line);
         return;
       }
-      clearTimeout(timeout);
-      resolve(line);
     });
 
     child.on("error", (error) => {
