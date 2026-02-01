@@ -31,14 +31,17 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-- Evidence grounding: plan defines retrieval + citation format for all answers
-- Deterministic retrieval: ordering rules documented and testable
-- Repository model: `docs` and `code` roots configurable (no hard-coded paths)
-- Filesystem constraints: read-only access with traversal/escape prevention
-- MCP tool design: JSON schemas and pagination/chunking rules specified
-- Execution model: local process, stdio-only, no network for core paths
-- Indexing: no pre-built index required (future local-only optionality noted)
-- Quality bar: DoD + PR checklist included for correctness and compatibility
+- Brownfield compatibility: existing tools, config, and ordering documented
+- Evidence grounding: retrieval + citation format defined for all answers
+- Multi-root model: `docs`, `code`, `harness` roots with stable ids supported
+- Docs-only mode: server functional without `code` roots
+- Root sources: local paths and git roots with managed cache
+- Explicit sync: no implicit network operations during retrieval
+- Determinism: ordering rules documented and testable
+- Safety: root escape prevention + controlled git operations
+- Testing: regression + new feature coverage defined (incl. sync behavior)
+- Tool stability: schemas stable or versioned with compatibility shims
+- Quality bar: DoD + PR checklist included for compatibility and tests
 
 ## Project Structure
 

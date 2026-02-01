@@ -79,9 +79,18 @@
 
 <!--
   ACTION REQUIRED: Capture any non-negotiable constitution constraints that
-  apply to this feature (e.g., stdio-only transport, no network access,
-  deterministic retrieval ordering, read-only filesystem access, tool schema
-  stability). These constraints MUST appear in requirements and tests.
+  apply to this feature. These constraints MUST appear in requirements and tests.
+  Examples to consider (include all that apply):
+  - Brownfield compatibility (existing tools/config/ordering treated as contract)
+  - Evidence grounding with citations (root id + file path + line/heading)
+  - Multi-root model (`docs`, `code`, `harness`) with stable root ids
+  - Docs-only mode (no `code` roots required)
+  - Local paths + git roots with managed cache
+  - Explicit sync/update (no implicit network during retrieval)
+  - Deterministic ordering for identical inputs
+  - Safety: root escape prevention + controlled git operations
+  - Testing mandatory (regression + new feature coverage)
+  - Tool schema stability or versioning
 -->
 
 - [Constraint 1]
