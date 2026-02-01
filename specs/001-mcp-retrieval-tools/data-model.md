@@ -1,7 +1,7 @@
 # Data Model: MCP Retrieval Tools
 
 **Date**: 2026-02-01
-**Feature**: /Users/mmassari/Development/MCP/mcp-workspace-docs/specs/001-mcp-retrieval-tools/spec.md
+**Feature**: specs/001-mcp-retrieval-tools/spec.md
 
 ## Entities
 

@@ -1,7 +1,7 @@
 # Implementation Plan: MCP Retrieval Tools
 
 **Branch**: `001-mcp-retrieval-tools` | **Date**: 2026-02-01 | **Spec**:
-/Users/mmassari/Development/MCP/mcp-workspace-docs/specs/001-mcp-retrieval-tools/spec.md
+specs/001-mcp-retrieval-tools/spec.md
 **Input**: Feature specification from `/specs/001-mcp-retrieval-tools/spec.md`
 
 **Note**: This template is filled in by the `/speckit.plan` command. See
