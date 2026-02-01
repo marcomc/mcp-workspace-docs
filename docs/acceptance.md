@@ -9,6 +9,11 @@
 - [ ] Returns stable ordering for identical inputs
 - [ ] Uses shared response envelope with `meta`
 
+## ping
+
+- [ ] Returns `status` and `version`
+- [ ] Uses shared response envelope with `meta`
+
 ## open_file
 
 - [ ] Rejects paths outside repo root

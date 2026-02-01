@@ -13,6 +13,22 @@
 }
 ```
 
+## ping
+
+```json
+{
+  "result": {
+    "status": "ok",
+    "version": "0.1.0"
+  },
+  "meta": {
+    "repo": "both",
+    "duration_ms": 2,
+    "truncated": false
+  }
+}
+```
+
 ## search
 
 ```json

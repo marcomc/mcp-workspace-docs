@@ -9,7 +9,7 @@ over two local repositories: `docs` (local documentation) and `code` (local
 upstream source). The MCP server will be run via **stdio** and registered as a
 **Local Server in McpOne (macOS)**, and must be reusable without modification
 by **Codex CLI / VS Code, Gemini CLI, and GitHub Copilot CLI**. Required tools:
-`search`, `open_file`, `get_snippet`, `list_dir` with specified parameters,
+`ping`, `search`, `open_file`, `get_snippet`, `list_dir` with specified parameters,
 deterministic behavior, and structured errors. Configuration via `DOCS_ROOT` and
 `CODE_ROOT`. Non-functional requirements include deterministic ordering,
 read-only access, clear structured errors, reasonable defaults. Out of scope:
@@ -28,15 +28,18 @@ repeatable answers across clients.
 **Why this priority**: This is the primary capability required for MCP clients to
 surface evidence-backed answers.
 
-**Independent Test**: Provide a fixed query against a static repository snapshot
-and confirm identical ordered results across multiple runs.
+**Independent Test**: Run `ping` to confirm server connectivity, then provide a
+fixed query against a static repository snapshot and confirm identical ordered
+results across multiple runs.
 
 **Acceptance Scenarios**:
 
-1. **Given** a configured `docs` root and a query string, **When** I run
+1. **Given** the server is running, **When** I call `ping`, **Then** I receive
+   a response with `status` and `version`.
+2. **Given** a configured `docs` root and a query string, **When** I run
    `search` with the same inputs twice, **Then** I receive identical ordered
    results including file path, line number(s), and matched text preview.
-2. **Given** a configured `code` root and a file path, **When** I run
+3. **Given** a configured `code` root and a file path, **When** I run
    `open_file`, **Then** I receive the full file content with line numbers.
 
 ---
@@ -130,8 +133,10 @@ the filesystem and are relative to the repo root.
 
 ### Functional Requirements
 
-- **FR-001**: System MUST expose MCP tools: `search`, `open_file`, `get_snippet`,
-  and `list_dir`.
+- **FR-001**: System MUST expose MCP tools: `ping`, `search`, `open_file`,
+  `get_snippet`, and `list_dir`.
+- **FR-001A**: `ping` MUST return `status` and `version` in the shared response
+  envelope.
 - **FR-002**: `search` MUST accept `repo` as `docs`, `code`, or `both` and perform
   deterministic keyword search over the selected roots. Ordering is by repo
   (`docs`, `code`), then relative path (lexicographic), then line number

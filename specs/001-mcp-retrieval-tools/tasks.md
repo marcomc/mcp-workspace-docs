@@ -27,9 +27,9 @@ description: "Task list template for feature implementation"
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per implementation plan in `src/` and `tests/`
-- [ ] T002 Initialize Node.js project metadata in `package.json`
-- [ ] T003 [P] Add stdio start script in `package.json`
+- [x] T001 Create project structure per implementation plan in `src/` and `tests/`
+- [x] T002 Initialize Node.js project metadata in `package.json`
+- [x] T003 [P] Add stdio start script in `package.json`
 
 ---
 
@@ -39,14 +39,15 @@ description: "Task list template for feature implementation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 Implement config loader for `DOCS_ROOT`/`CODE_ROOT` in `src/config/config.js`
-- [ ] T005 Enforce startup validation and fail-fast errors in `src/config/validate.js`
+- [x] T004 Implement config loader for `DOCS_ROOT`/`CODE_ROOT` in `src/config/config.js`
+- [x] T005 Enforce startup validation and fail-fast errors in `src/config/validate.js`
 - [ ] T006 Implement repo root resolver + path guard in `src/core/paths.js`
-- [ ] T007 Define shared response envelope helper in `src/core/response.js`
-- [ ] T008 Define structured error helpers and codes in `src/errors/errors.js`
+- [x] T007 Define shared response envelope helper in `src/core/response.js`
+- [x] T008 Define structured error helpers and codes in `src/errors/errors.js`
 - [ ] T009 Implement deterministic ordering utilities in `src/core/order.js`
 - [ ] T010 Implement ignore rules (dotfiles + .gitignore) in `src/core/ignore.js`
-- [ ] T011 Wire stdio server entrypoint and tool registry in `src/index.js`
+- [x] T011 Wire stdio server entrypoint and tool registry in `src/index.js`
+- [x] T011B Define schema for `ping` output in `src/schemas/ping.json`
 - [ ] T011A Define default `search` limit (200) in `src/core/limits.js`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
