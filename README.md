@@ -12,6 +12,17 @@ local MCP retrieval tools server.
 - Tool error cases: `docs/errors.md`
 - Tool acceptance checklists: `docs/acceptance.md`
 
+## Testing (Regression Prevention)
+
+Run the minimal regression suite with repository roots set:
+
+```bash
+DOCS_ROOT=/path/to/docs CODE_ROOT=/path/to/code npm test
+```
+
+The `ping` smoke test validates stdio wiring and JSON response shape. Add more
+tests under `tests/integration/` as new tools are implemented.
+
 ## Feature Specs
 
 - MCP Retrieval Tools: `specs/001-mcp-retrieval-tools/spec.md`

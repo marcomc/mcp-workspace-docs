@@ -123,6 +123,7 @@ description: "Task list template for feature implementation"
 - [ ] T035 Add minimal structured logging to `src/core/logging.js`
 - [ ] T036 Emit per-request logs in `src/core/server.js`
 - [ ] T037 Run a non-McpOne client smoke test and capture notes in `docs/smoke-tests.md`
+- [x] T038 Add ping smoke test in `tests/integration/ping.test.js`
 
 ---
 
