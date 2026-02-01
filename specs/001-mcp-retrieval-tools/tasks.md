@@ -41,14 +41,14 @@ description: "Task list template for feature implementation"
 
 - [x] T004 Implement config loader for `DOCS_ROOT`/`CODE_ROOT` in `src/config/config.js`
 - [x] T005 Enforce startup validation and fail-fast errors in `src/config/validate.js`
-- [ ] T006 Implement repo root resolver + path guard in `src/core/paths.js`
+- [x] T006 Implement repo root resolver + path guard in `src/core/paths.js`
 - [x] T007 Define shared response envelope helper in `src/core/response.js`
 - [x] T008 Define structured error helpers and codes in `src/errors/errors.js`
 - [ ] T009 Implement deterministic ordering utilities in `src/core/order.js`
 - [ ] T010 Implement ignore rules (dotfiles + .gitignore) in `src/core/ignore.js`
 - [x] T011 Wire stdio server entrypoint and tool registry in `src/index.js`
 - [x] T011B Define schema for `ping` output in `src/schemas/ping.json`
-- [ ] T011A Define default `search` limit (200) in `src/core/limits.js`
+- [x] T011A Define default `search` limit (200) in `src/core/limits.js`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
