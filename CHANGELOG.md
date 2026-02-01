@@ -21,6 +21,7 @@ All notable changes for this project will be documented in this file.
 - Documentation alignment for quality gates, error catalog, acceptance checks, and ordering rules.
 - Structured request and error logging (stderr).
 - Logging smoke test for structured request entries.
+- Added validation checklists for determinism, schema shape, stdio/offline, and read-only guards.
 
 ### Changed
 

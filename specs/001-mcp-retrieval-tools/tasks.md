@@ -111,10 +111,10 @@ description: "Task list template for feature implementation"
 **Purpose**: Improvements that affect multiple user stories
 
 - [x] T025 [P] Document tool schemas and envelope usage in `docs/schema-examples.md`
-- [ ] T026 Verify deterministic ordering for search results in `tests/integration/determinism.md`
-- [ ] T027 Validate tool schemas and pagination/chunking behavior in `tests/integration/schemas.md`
-- [ ] T028 Confirm stdio-only operation and no network usage in `tests/integration/stdio.md`
-- [ ] T029 Ensure read-only filesystem guards prevent root escape in `tests/integration/security.md`
+- [x] T026 Verify deterministic ordering for search results in `tests/integration/determinism.md`
+- [x] T027 Validate tool schemas and pagination/chunking behavior in `tests/integration/schemas.md`
+- [x] T028 Confirm stdio-only operation and no network usage in `tests/integration/stdio.md`
+- [x] T029 Ensure read-only filesystem guards prevent root escape in `tests/integration/security.md`
 - [x] T030 Add Definition of Done and PR checklist to `docs/quality.md`
 - [x] T031 Add tool schema examples to `docs/schema-examples.md`
 - [x] T032 Document tool error cases and messages in `docs/errors.md`

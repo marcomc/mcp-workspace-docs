@@ -20,7 +20,7 @@ Set the repository roots before starting the server:
 1. Open McpOne and navigate to **Local Servers**.
 2. Click **Add**.
 3. Fill in:
-   - **Name**: MCP Retrieval Tools
+   - **Name**: MCP Workspace Docs 
    - **Command**: `node`
    - **Args**: `./src/index.js`
    - **Working Directory**: repository root
@@ -30,8 +30,8 @@ Set the repository roots before starting the server:
 **Config snippet (reference):**
 
 ```json
-{
-  "name": "MCP Retrieval Tools",
+{ 
+  "name": "MCP Workspace Docs",
   "command": "node",
   "args": ["./src/index.js"],
   "cwd": "/absolute/path/to/mcp-workspace-docs",
@@ -50,7 +50,7 @@ Codex CLI and the Codex VS Code extension share the same MCP configuration in
 ### Option A: CLI (recommended)
 
 ```bash
-codex mcp add mcp-retrieval-tools \
+codex mcp add mcp-workspace-doc \
   --env DOCS_ROOT=/absolute/path/to/docs \
   --env CODE_ROOT=/absolute/path/to/code \
   -- node ./src/index.js
@@ -59,12 +59,12 @@ codex mcp add mcp-retrieval-tools \
 ### Option B: config.toml
 
 ```toml
-[mcp_servers.mcp-retrieval-tools]
+[mcp_servers.mcp-workspace-doc]
 command = "node"
 args = ["./src/index.js"]
 cwd = "/absolute/path/to/mcp-workspace-docs"
 
-[mcp_servers.mcp-retrieval-tools.env]
+[mcp_servers.mcp-workspace-doc.env]
 DOCS_ROOT = "/absolute/path/to/docs"
 CODE_ROOT = "/absolute/path/to/code"
 ```
@@ -80,7 +80,7 @@ CODE_ROOT = "/absolute/path/to/code"
 ```json
 {
   "mcpServers": {
-    "mcp-retrieval-tools": {
+    "mcp-workspace-doc": {
       "command": "node",
       "args": ["./src/index.js"],
       "cwd": "/absolute/path/to/mcp-workspace-docs",
@@ -108,7 +108,7 @@ The interactive flow writes to `~/.copilot/mcp-config.json` (or under
 ```json
 {
   "mcpServers": {
-    "mcp-retrieval-tools": {
+    "mcp-workspace-doc": {
       "command": "node",
       "args": ["./src/index.js"],
       "cwd": "/absolute/path/to/mcp-workspace-docs",
