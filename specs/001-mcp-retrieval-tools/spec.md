@@ -3,7 +3,19 @@
 **Feature Branch**: `001-mcp-retrieval-tools`  
 **Created**: 2026-02-01  
 **Status**: Draft  
-**Input**: User description: "Specify the requirements for a **Node.js-based local MCP server** that exposes **read-only retrieval tools** over two local repositories: - `docs`: a local checkout of project documentation - `code`: a local checkout of the upstream open-source project source code The MCP server will be run via **stdio** and registered as a **Local Server in McpOne (macOS)**, and must be reusable without modification by **Codex CLI / VS Code, Gemini CLI, and GitHub Copilot CLI**. --- ## Required MCP tools Define precise inputs, outputs, and error conditions for the following tools. ### 1. `search` **Parameters** - `repo`: \"docs\" | \"code\" | \"both\" - `query`: string - `file_glob` (optional): string - `limit` (optional): number **Behavior** - Perform deterministic keyword search over the selected repository roots. - Return ordered results including: - relative file path - line number(s) - matched text preview --- ### 2. `open_file` **Parameters** - `repo`: \"docs\" | \"code\" - `path`: string (relative to repo root) **Behavior** - Return full file contents with line numbers. - Reject paths outside the configured root. - Return structured errors for missing or unreadable files. --- ### 3. `get_snippet` **Parameters** - `repo`: \"docs\" | \"code\" - `path`: string - `start_line`: number - `end_line`: number **Behavior** - Return only the requested line range. - Clamp line ranges to file bounds. - Reject invalid ranges with clear errors. --- ### 4. `list_dir` **Parameters** - `repo`: \"docs\" | \"code\" - `path` (optional): string **Behavior** - List files and directories relative to the repo root. - Exclude hidden or ignored files if applicable. --- ## Configuration Specify runtime configuration via environment variables or a local config file: - `DOCS_ROOT` - `CODE_ROOT` Define validation rules for: - missing configuration - non-existent directories - non-readable paths --- ## Non-functional requirements - Deterministic output ordering for identical inputs. - Read-only filesystem access. - Clear, structured error responses. - Reasonable defaults (e.g. search result limits). --- ## Out of scope - Semantic search / embeddings - Network access - Authentication - Code modification or execution --- ## Deliverables - Functional specification for each MCP tool - JSON schemas for inputs and outputs - Enumerated error cases and expected messages - Acceptance checklist for each tool"
+**Input**: User description: "Specify the requirements for a
+**Node.js-based local MCP server** that exposes **read-only retrieval tools**
+over two local repositories: `docs` (local documentation) and `code` (local
+upstream source). The MCP server will be run via **stdio** and registered as a
+**Local Server in McpOne (macOS)**, and must be reusable without modification
+by **Codex CLI / VS Code, Gemini CLI, and GitHub Copilot CLI**. Required tools:
+`search`, `open_file`, `get_snippet`, `list_dir` with specified parameters,
+deterministic behavior, and structured errors. Configuration via `DOCS_ROOT` and
+`CODE_ROOT`. Non-functional requirements include deterministic ordering,
+read-only access, clear structured errors, reasonable defaults. Out of scope:
+semantic search, network access, authentication, code modification/execution.
+Deliverables include functional specs, JSON schemas, error cases, and acceptance
+checklists."
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -92,6 +104,22 @@ the filesystem and are relative to the repo root.
 
 - MCP clients support stdio-based local server execution.
 - Local repositories are available at configured roots when tools are invoked.
+
+## Clarifications
+
+### Session 2026-02-01
+
+- Q: Should `list_dir` exclude hidden/ignored files? → A: Exclude hidden
+  dotfiles/directories and respect ignore rules (e.g., `.gitignore`).
+- Q: How should missing or invalid `DOCS_ROOT`/`CODE_ROOT` be handled? → A: Fail
+  fast on startup if either root is missing or invalid.
+- Q: What error response shape should tools use? → A: Structured error object
+  with `code`, `message`, and `details`.
+- Q: What search result shape should be returned? → A: Per-match entries with
+  `path`, `line`, and `preview`.
+- Q: Should tool outputs share a common envelope? → A: Yes. Include top-level
+  `result` plus `meta` with `repo`, `duration_ms`, and `truncated`.
+
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
@@ -100,20 +128,25 @@ the filesystem and are relative to the repo root.
   and `list_dir`.
 - **FR-002**: `search` MUST accept `repo` as `docs`, `code`, or `both` and perform
   deterministic keyword search over the selected roots.
-- **FR-003**: `search` results MUST include relative file path, line number(s),
-  and matched text preview, returned in a stable order for identical inputs.
+- **FR-003**: `search` results MUST return per-match entries with relative file
+  path, line number, and matched text preview, returned in a stable order for
+  identical inputs.
 - **FR-004**: `open_file` MUST return full file contents with line numbers and
   reject paths outside the configured repo root.
 - **FR-005**: `get_snippet` MUST return only the requested line range, clamping
   to file bounds and rejecting invalid ranges with clear errors.
 - **FR-006**: `list_dir` MUST return files and directories relative to the repo
-  root and exclude hidden or ignored files when applicable.
+  root and exclude hidden dotfiles/directories and ignored files (e.g.,
+  `.gitignore`) when applicable.
 - **FR-007**: Each tool MUST define JSON schemas for inputs and outputs, and
-  errors MUST be structured with stable, documented fields.
+  outputs MUST use a shared envelope: top-level `result` plus `meta` with
+  `repo`, `duration_ms`, and `truncated`. Errors MUST be structured with stable,
+  documented fields: `code`, `message`, and `details`.
 - **FR-008**: Configuration MUST support `DOCS_ROOT` and `CODE_ROOT` via
   environment variables or a local config file.
 - **FR-009**: The system MUST validate missing configuration, non-existent
-  directories, and non-readable paths with explicit error messages.
+  directories, and non-readable paths at startup and refuse to start if either
+  `DOCS_ROOT` or `CODE_ROOT` is missing or invalid, with explicit error messages.
 - **FR-010**: The system MUST be read-only and MUST NOT modify files.
 - **FR-011**: The system MUST communicate exclusively over stdio for MCP
   compatibility.

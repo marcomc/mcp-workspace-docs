@@ -31,4 +31,4 @@
 
 ## Notes
 
-- No issues found in validation.
+- Validated after clarifications on 2026-02-01; all checks pass.
