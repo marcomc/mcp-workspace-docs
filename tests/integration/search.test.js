@@ -135,3 +135,41 @@ test("search accepts glob patterns with **", async (t) => {
   assert.equal(envelope.meta.repo, "docs");
   assert.ok(Array.isArray(envelope.result));
 });
+
+test("search honors repo-prefixed file_glob patterns", async (t) => {
+  if (shouldSkip) {
+    t.skip("DOCS_ROOT and CODE_ROOT must be set");
+    return;
+  }
+
+  const payload = await runTool({
+    jsonrpc: "2.0",
+    id: 3,
+    method: "tools/call",
+    params: {
+      name: "search",
+      arguments: {
+        repo: "both",
+        query: "Workspace",
+        file_glob: "docs/**/*.md",
+        limit: 5
+      }
+    }
+  });
+  const envelope = payload.result?.data;
+
+  if (VERBOSE_LEVEL >= 1) {
+    console.log("[search] repo-prefixed glob response:", payload);
+  }
+  if (VERBOSE_LEVEL >= 2) {
+    console.log(
+      "[search] repo-prefixed glob response (full):",
+      JSON.stringify(payload, null, 2)
+    );
+  }
+
+  assert.equal(envelope.meta.repo, "both");
+  assert.ok(Array.isArray(envelope.result));
+  assert.ok(envelope.result.length > 0);
+  assert.ok(envelope.result.every((match) => !match.path.startsWith("docs/")));
+});

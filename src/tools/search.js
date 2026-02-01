@@ -30,6 +30,19 @@ function shouldInclude(relPath, globRegex) {
   return globRegex.test(relPath);
 }
 
+function normalizeFileGlobForRepo(fileGlob, repo) {
+  if (!fileGlob) {
+    return fileGlob;
+  }
+  if (fileGlob.startsWith("docs/")) {
+    return repo === "docs" ? fileGlob.slice("docs/".length) : null;
+  }
+  if (fileGlob.startsWith("code/")) {
+    return repo === "code" ? fileGlob.slice("code/".length) : null;
+  }
+  return fileGlob;
+}
+
 function isBinary(buffer) {
   return buffer.includes(0);
 }
@@ -91,8 +104,12 @@ function searchInFile(file, query, matches, limit) {
 
 function searchRepo(repo, query, fileGlob, limit, config) {
   const root = repo === "docs" ? config.docsRoot : config.codeRoot;
+  const normalizedGlob = normalizeFileGlobForRepo(fileGlob, repo);
+  if (normalizedGlob === null) {
+    return [];
+  }
   const ignoreRules = loadIgnoreRules(root);
-  const globRegex = fileGlob ? globToRegex(fileGlob) : null;
+  const globRegex = normalizedGlob ? globToRegex(normalizedGlob) : null;
   const files = walkFiles(root, ignoreRules)
     .filter((file) => shouldInclude(file.relative, globRegex))
     .sort((a, b) => (a.relative < b.relative ? -1 : a.relative > b.relative ? 1 : 0));
