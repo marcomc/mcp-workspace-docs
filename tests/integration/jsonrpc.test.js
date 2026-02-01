@@ -88,4 +88,5 @@ test("JSON-RPC initialize + tools/list work", async (t) => {
   assert.equal(list.id, 2);
   assert.ok(Array.isArray(list.result.tools));
   assert.ok(list.result.tools.find((tool) => tool.name === "list_dir"));
+  assert.ok(list.result.tools.find((tool) => tool.name === "smart_search"));
 });

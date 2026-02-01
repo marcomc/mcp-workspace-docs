@@ -1,0 +1,76 @@
+{
+  "tool": "smart_search",
+  "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["query"],
+    "properties": {
+      "repo": {
+        "type": "string",
+        "enum": ["docs", "code", "both"]
+      },
+      "query": {
+        "type": "string",
+        "minLength": 1
+      },
+      "file_glob": {
+        "type": "string"
+      },
+      "limit": {
+        "type": "integer",
+        "minimum": 1
+      }
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["result", "meta"],
+    "properties": {
+      "result": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repo", "path", "line", "preview"],
+          "properties": {
+            "repo": {
+              "type": "string",
+              "enum": ["docs", "code"]
+            },
+            "path": { "type": "string" },
+            "line": { "type": "integer", "minimum": 1 },
+            "preview": { "type": "string" }
+          }
+        }
+      },
+      "meta": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["repo", "duration_ms", "truncated"],
+        "properties": {
+          "repo": { "type": "string" },
+          "duration_ms": { "type": "integer", "minimum": 0 },
+          "truncated": { "type": "boolean" }
+        }
+      }
+    }
+  },
+  "error_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["error"],
+    "properties": {
+      "error": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "message", "details"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "details": { "type": "object" }
+        }
+      }
+    }
+  }
+}

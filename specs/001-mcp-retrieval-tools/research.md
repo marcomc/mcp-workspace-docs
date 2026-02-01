@@ -71,3 +71,15 @@ rules (e.g., `.gitignore`).
 **Alternatives considered**:
 - Include hidden/ignored files by default
 - Exclude dotfiles only (ignore rules not applied)
+
+### 7) Repo-agnostic discovery
+
+**Decision**: Add `smart_search` and make `repo` optional for tools where safe,
+defaulting to both repos and auto-resolving paths.
+
+**Rationale**: Allows chat users to stay repo-agnostic while preserving
+deterministic behavior and clear ambiguity errors.
+
+**Alternatives considered**:
+- Require `repo` for all tools (more friction for users)
+- Add client-side routing only (inconsistent across clients)

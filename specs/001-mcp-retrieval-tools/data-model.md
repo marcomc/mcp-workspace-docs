@@ -26,6 +26,19 @@
 - `path` must be within repo root.
 - `line` must be >= 1.
 
+### SmartSearchMatch
+
+**Fields**:
+- `repo`: `docs` or `code`
+- `path`: relative file path
+- `line`: line number (1-based)
+- `preview`: matched text preview
+
+**Validation**:
+- `repo` must be `docs` or `code`.
+- `path` must be within repo root.
+- `line` must be >= 1.
+
 ### FileContent
 
 **Fields**:

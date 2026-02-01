@@ -9,7 +9,8 @@ over two local repositories: `docs` (local documentation) and `code` (local
 upstream source). The MCP server will be run via **stdio** and registered as a
 **Local Server in McpOne (macOS)**, and must be reusable without modification
 by **Codex CLI / VS Code, Gemini CLI, and GitHub Copilot CLI**. Required tools:
-`search`, `open_file`, `get_snippet`, `list_dir` with specified parameters,
+`search`, `smart_search`, `open_file`, `get_snippet`, `list_dir` with specified
+parameters,
 deterministic behavior, and structured errors. Configuration via `DOCS_ROOT` and
 `CODE_ROOT`. Non-functional requirements include deterministic ordering,
 read-only access, clear structured errors, reasonable defaults. Out of scope:
@@ -39,7 +40,9 @@ results across multiple runs.
 2. **Given** a configured `docs` root and a query string, **When** I run
    `search` with the same inputs twice, **Then** I receive identical ordered
    results including file path, line number(s), and matched text preview.
-3. **Given** a configured `code` root and a file path, **When** I run
+3. **Given** a query string, **When** I call `smart_search` without a repo,
+   **Then** I receive results that include a `repo` field for each match.
+4. **Given** a configured `code` root and a file path, **When** I run
    `open_file`, **Then** I receive the full file content with line numbers.
 
 ---
@@ -135,8 +138,8 @@ the filesystem and are relative to the repo root.
 
 ### Functional Requirements
 
-- **FR-001**: System MUST expose MCP tools: `search`, `open_file`,
-  `get_snippet`, and `list_dir`.
+- **FR-001**: System MUST expose MCP tools: `search`, `smart_search`,
+  `open_file`, `get_snippet`, and `list_dir`.
 - **FR-002**: `search` MUST accept `repo` as `docs`, `code`, or `both` and perform
   deterministic keyword search over the selected roots. Ordering is by repo
   (`docs`, `code`), then relative path (lexicographic), then line number
@@ -145,6 +148,9 @@ the filesystem and are relative to the repo root.
 - **FR-003**: `search` results MUST return per-match entries with relative file
   path, line number, and matched text preview, returned in a stable order for
   identical inputs.
+- **FR-003A**: `smart_search` MUST return per-match entries with `repo`, `path`,
+  `line`, and `preview`, ordered by repo (`docs` then `code`), then path, then
+  line.
 - **FR-004**: `open_file` MUST return full file contents with line numbers and
   reject paths outside the configured repo root.
 - **FR-004A**: If `open_file` omits `repo`, the server MUST resolve the path

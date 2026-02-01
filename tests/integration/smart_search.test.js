@@ -23,7 +23,7 @@ async function runTool(request) {
   const response = await new Promise((resolve, reject) => {
     let buffer = "";
     const timeout = setTimeout(() => {
-      reject(new Error("get_snippet test timed out"));
+      reject(new Error("smart_search test timed out"));
     }, 2000);
 
     child.stdout.on("data", (data) => {
@@ -46,7 +46,7 @@ async function runTool(request) {
   return JSON.parse(response);
 }
 
-test("get_snippet clamps ranges and returns lines", async (t) => {
+test("smart_search defaults to both repos and returns repo-qualified results", async (t) => {
   if (shouldSkip) {
     t.skip("DOCS_ROOT and CODE_ROOT must be set");
     return;
@@ -56,26 +56,20 @@ test("get_snippet clamps ranges and returns lines", async (t) => {
     jsonrpc: "2.0",
     id: 1,
     method: "tools/call",
-    params: {
-      name: "get_snippet",
-      arguments: {
-        repo: "docs",
-        path: "README.md",
-        start_line: 1,
-        end_line: 1000
-      }
-    }
+    params: { name: "smart_search", arguments: { query: "Workspace", limit: 5 } }
   });
   const envelope = payload.result?.data;
 
   if (VERBOSE_LEVEL >= 1) {
-    console.log("[get_snippet] response:", payload);
+    console.log("[smart_search] response:", payload);
   }
   if (VERBOSE_LEVEL >= 2) {
-    console.log("[get_snippet] response (full):", JSON.stringify(payload, null, 2));
+    console.log("[smart_search] response (full):", JSON.stringify(payload, null, 2));
   }
-  assert.equal(envelope.meta.repo, "docs");
-  assert.ok(envelope.result.lines.length >= 1);
-  assert.ok(envelope.result.start_line >= 1);
-  assert.ok(envelope.result.end_line >= envelope.result.start_line);
+
+  assert.equal(envelope.meta.repo, "both");
+  assert.ok(Array.isArray(envelope.result));
+  if (envelope.result.length > 0) {
+    assert.ok(["docs", "code"].includes(envelope.result[0].repo));
+  }
 });

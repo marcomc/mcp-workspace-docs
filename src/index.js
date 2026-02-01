@@ -9,6 +9,7 @@ import { listDir } from "./tools/list_dir.js";
 import { openFile } from "./tools/open_file.js";
 import { getSnippet } from "./tools/get_snippet.js";
 import { search } from "./tools/search.js";
+import { smartSearch } from "./tools/smart_search.js";
 
 function loadToolSchemas() {
   const moduleDir = path.dirname(fileURLToPath(import.meta.url));
@@ -41,7 +42,8 @@ const server = new MCPServer({
     list_dir: listDir,
     open_file: openFile,
     get_snippet: getSnippet,
-    search
+    search,
+    smart_search: smartSearch
   }
 });
 

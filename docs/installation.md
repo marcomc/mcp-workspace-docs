@@ -120,7 +120,8 @@ The interactive flow writes to `~/.copilot/mcp-config.json` (or under
         "list_dir",
         "open_file",
         "get_snippet",
-        "search"
+        "search",
+        "smart_search"
       ]
     }
   }

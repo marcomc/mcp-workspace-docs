@@ -23,6 +23,7 @@ All notable changes for this project will be documented in this file.
 - Added validation checklists for determinism, schema shape, stdio/offline, and read-only guards.
 - MCP JSON-RPC protocol support (initialize, tools/list, tools/call).
 - JSON-RPC protocol smoke test.
+- Smart search tool for repo-agnostic discovery.
 
 ### Changed
 

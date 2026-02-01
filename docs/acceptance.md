@@ -11,6 +11,13 @@ Repository-wide acceptance criteria for MCP tool behavior.
 - [ ] Returns stable ordering for identical inputs
 - [ ] Uses shared response envelope with `meta`
 
+## smart_search
+
+- [ ] Defaults to searching both repos when `repo` is omitted
+- [ ] Accepts `repo` as `docs`, `code`, or `both`
+- [ ] Returns per-match results with `repo`, `path`, `line`, `preview`
+- [ ] Uses shared response envelope with `meta`
+
 ## open_file
 
 - [ ] Rejects paths outside repo root

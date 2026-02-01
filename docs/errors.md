@@ -8,6 +8,15 @@ Repository-wide catalog of error codes and messages for MCP tools.
 - `QUERY_EMPTY`: Query must be non-empty
 - `LIMIT_INVALID`: Limit must be >= 1
 - `REPO_INVALID`: Repo must be docs, code, or both (when provided)
+- `FILE_GLOB_INVALID`: file_glob must be a string
+
+## smart_search
+
+- `CONFIG_INVALID`: Invalid repository configuration
+- `QUERY_EMPTY`: Query must be non-empty
+- `LIMIT_INVALID`: Limit must be >= 1
+- `REPO_INVALID`: Repo must be docs, code, or both (when provided)
+- `FILE_GLOB_INVALID`: file_glob must be a string
 
 ## open_file
 

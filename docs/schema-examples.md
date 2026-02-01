@@ -44,6 +44,26 @@ Search results are ordered by:
 }
 ```
 
+## smart_search
+
+```json
+{
+  "result": [
+    {
+      "repo": "docs",
+      "path": "README.md",
+      "line": 12,
+      "preview": "Workspace CLI overview"
+    }
+  ],
+  "meta": {
+    "repo": "both",
+    "duration_ms": 9,
+    "truncated": false
+  }
+}
+```
+
 ## open_file
 
 ```json

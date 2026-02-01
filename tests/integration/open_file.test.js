@@ -56,7 +56,7 @@ test("open_file returns file contents", async (t) => {
     jsonrpc: "2.0",
     id: 1,
     method: "tools/call",
-    params: { name: "open_file", arguments: { path: "docs/README.md" } }
+    params: { name: "open_file", arguments: { repo: "docs", path: "README.md" } }
   });
   const envelope = payload.result?.data;
 

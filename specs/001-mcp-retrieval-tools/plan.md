@@ -8,9 +8,10 @@
 ## Summary
 
 Define a local MCP server that exposes deterministic, read-only retrieval tools
-(`search`, `open_file`, `get_snippet`, `list_dir`) over two configured local
-repositories. The server runs over stdio, requires no network access, and uses
-stable JSON schemas with a shared output envelope and structured errors.
+(`search`, `smart_search`, `open_file`, `get_snippet`, `list_dir`) over two
+configured local repositories. The server runs over stdio, requires no network
+access, and uses stable JSON schemas with a shared output envelope and structured
+errors.
 
 ## Technical Context
 
