@@ -4,7 +4,8 @@ Auto-generated from all feature plans. Last updated: 2026-02-01
 
 ## Active Technologies
 
-None yet (no plan.md files found).
+- Node.js 20 LTS + Node.js standard library (fs, path); no network deps (001-mcp-retrieval-tools)
+- Local filesystem (read-only) (001-mcp-retrieval-tools)
 
 ## Project Structure
 
@@ -27,7 +28,8 @@ N/A (no implementation languages declared).
 
 ## Recent Changes
 
-- 001-mcp-retrieval-tools: added specification and quality checklist.
+- 001-mcp-retrieval-tools: Added Node.js 20 LTS + Node.js standard library (fs, path); no network deps.
+- 001-mcp-retrieval-tools: Added specification and quality checklist.
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->
